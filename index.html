@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>Online learning</title>
+  <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+<body>
+    <div class="nav-container">
+        <nav class="top-nav">
+            <menu class="nav-menu nav-menu--disable">
+                <li class="menu_item" id="find-course">
+                    <div onclick="show_find_course()">Tìm kiếm khóa học</div>
+                    <menu class="nav-child-menu">
+                        <li class="menu_item" id="insert-course">
+                            <div onclick="show_insert_course()">Tạo khóa học</div>
+                        </li>
+                    </menu>
+                </li>
+                <li class="menu_item" id="show-list" onclick="">
+                    <div>Lịch học</div>
+                </li>
+                <li class="menu_item" id="show-history" onclick="">
+                    <div>Lịch sử đăng ký</div>
+                </li>
+                 <li class="menu_item" id="show-history" onclick="">
+                    <div>Trở thành giáo viên</div>
+                </li>
+                <li class="menu_item" id="edit-info">
+                    <div onclick="">Chỉnh sửa thông tin</div>
+                    <menu class="nav-child-menu">
+                        <li class="menu_item" id="update-certificate">
+                            <div onclick="">Cập nhật bằng cấp</div>
+                        </li>
+                    </menu>
+                </li>
+            </menu>
+        </nav>
+    </div>
+
+    <div class="form-container" id="form-insert-course">
+        <form class=" form">
+            <div class="form__element">
+                <h2 class="form__element_tag">Tên khóa học:</h2>
+                <input type="text" name="" placeholder="VD:" required>
+            </div>
+            <div class="form__element">
+                <h2 class="form__element_tag">Lớp:</h2>
+                <input type="number" name="" placeholder="VD:" required>
+            </div>
+            <div class="form__element">
+                <h2 class="form__element_tag">Số buổi dự kiến:</h2>
+                <input type="number" name="" required>
+            </div>
+            <div class="form__element">
+                <h2 class="form__element_tag">Số học sinh tối thiểu:</h2>
+                <input type="number" name="" required>
+            </div>
+            <div class="form__element">
+                <button class="btn btn--submit">Thêm</button>
+            </div>
+            <div class="form-message" id="form-insert-bill-message">
+            </div>
+        </form>
+    </div>
+
+    <div class="form-container" id="courses">
+        <div class="search-bar">
+            <input type="text" name="" >
+        </div>
+        <button>Tìm</button>
+        <div class="search-result">
+            
+        </div>
+    </div>
+
+
+</body>
+<script type="text/javascript" src="./js.js"></script>
+</html>
