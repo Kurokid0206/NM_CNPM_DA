@@ -1,17 +1,27 @@
 {
   "name": "code",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "dependencies": {
+    "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "mssql": "^7.3.0"
+    "mssql": "^7.3.0",
+    "nodemon": "^2.0.15"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kurokid0206/NM_CNPM_DA.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Kurokid0206/NM_CNPM_DA/issues"
+  },
+  "homepage": "https://github.com/Kurokid0206/NM_CNPM_DA#readme",
+  "description": ""
 }
