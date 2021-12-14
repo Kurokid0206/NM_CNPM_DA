@@ -3,7 +3,8 @@ function show_find_course(){
     div.style.display = "none";
     div = document.querySelector("#find-courses")
     div.style.display = "flex";
-
+    div = document.querySelector("#schedule")
+    div.style.display = "none";
 }
 
 function show_insert_course() {
@@ -11,8 +12,22 @@ function show_insert_course() {
     div.style.display = "flex";
     div = document.querySelector("#find-courses")
     div.style.display = "none";
+    div = document.querySelector("#schedule")
+    div.style.display = "none";
+}
+
+
+function show_schedule() {
+    var div = document.querySelector("#schedule")
+    div.style.display = "flex";
+    div = document.querySelector("#form-insert-course")
+    div.style.display = "none";
+    div = document.querySelector("#find-courses")
+    div.style.display = "none";
 
 }
+
+
 
 function find_courses(){
     var input=document.getElementById("find-courses-input")
@@ -50,11 +65,8 @@ function grid_render(data){
         })
         new_grid.append(item)
     })
-
     return new_grid
 }
-
-
 
 const row = html => `<tr>\n${html}</tr>\n`,
       heading = object => row(Object.keys(object).reduce((html, heading) => (html + `<th>${heading}</th>`), '')),

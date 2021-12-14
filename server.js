@@ -54,8 +54,6 @@ app.post("/insert-course",function(req,res){
 	console.log(req.body);
 });
 
-
-
 app.post("/find-courses",function(req,res){
 	//tạo promise chắc chắn trả về
 	Promise.resolve('success').then(
