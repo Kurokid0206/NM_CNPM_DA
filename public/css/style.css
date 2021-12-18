@@ -119,6 +119,12 @@ li:hover .nav-child-menu {
     border-bottom: 1px black solid;
 }
 
+.whattodo{
+    font-size: 20px;
+    line-height: 1.2em;
+}
+
+
 .form .form__element input:focus {
     outline: none;
     border-bottom: 1px rgb(91, 125, 235) solid;

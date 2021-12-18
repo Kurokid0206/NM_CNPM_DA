@@ -5,6 +5,12 @@ function show_find_course(){
     div.style.display = "flex";
     div = document.querySelector("#schedule")
     div.style.display = "none";
+    div = document.querySelector("#form-change-info")
+    div.style.display = "none";
+    div = document.querySelector("#form-become-teacher")
+    div.style.display = "none";
+    div = document.querySelector("#form-update-cert")
+    div.style.display = "none";
 }
 
 function show_insert_course() {
@@ -13,6 +19,12 @@ function show_insert_course() {
     div = document.querySelector("#find-courses")
     div.style.display = "none";
     div = document.querySelector("#schedule")
+    div.style.display = "none";
+    div = document.querySelector("#form-change-info")
+    div.style.display = "none";
+    div = document.querySelector("#form-become-teacher")
+    div.style.display = "none";
+    div = document.querySelector("#form-update-cert")
     div.style.display = "none";
 }
 
@@ -24,10 +36,58 @@ function show_schedule() {
     div.style.display = "none";
     div = document.querySelector("#find-courses")
     div.style.display = "none";
-
+    div = document.querySelector("#form-change-info")
+    div.style.display = "none";
+    div = document.querySelector("#form-become-teacher")
+    div.style.display = "none";
+    div = document.querySelector("#form-update-cert")
+    div.style.display = "none";
 }
 
+function change_info() {
+    var div = document.querySelector("#schedule")
+    div.style.display = "none";
+    div = document.querySelector("#form-insert-course")
+    div.style.display = "none";
+    div = document.querySelector("#find-courses")
+    div.style.display = "none";
+    div = document.querySelector("#form-change-info")
+    div.style.display = "flex";
+    div = document.querySelector("#form-become-teacher")
+    div.style.display = "none";
+    div = document.querySelector("#form-update-cert")
+    div.style.display = "none";
+}
 
+function apply_teacher() {
+    var div = document.querySelector("#schedule")
+    div.style.display = "none";
+    div = document.querySelector("#form-insert-course")
+    div.style.display = "none";
+    div = document.querySelector("#find-courses")
+    div.style.display = "none";
+    div = document.querySelector("#form-change-info")
+    div.style.display = "none";
+    div = document.querySelector("#form-become-teacher")
+    div.style.display = "flex";
+    div = document.querySelector("#form-update-cert")
+    div.style.display = "none";
+}
+
+function update_more_cert(){
+    var div = document.querySelector("#schedule")
+    div.style.display = "none";
+    div = document.querySelector("#form-insert-course")
+    div.style.display = "none";
+    div = document.querySelector("#find-courses")
+    div.style.display = "none";
+    div = document.querySelector("#form-change-info")
+    div.style.display = "none";
+    div = document.querySelector("#form-become-teacher")
+    div.style.display = "none";
+    div = document.querySelector("#form-update-cert")
+    div.style.display = "flex";
+}
 
 function find_courses(){
     var input=document.getElementById("find-courses-input")
@@ -129,4 +189,29 @@ function show_my_courses(){
     xhtml.send();
 
     return false;
-}
+
+function checkEmail() { 
+    var email = document.getElementById('email'); 
+    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/; 
+    if (!filter.test(email.value)) { 
+        alert('Vui long nhap dia chi email hop le');
+        email.focus; 
+        return false; 
+    }
+    else{ 
+        return true;
+    } 
+} 
+
+function checkSDT() {
+    var SDT = document.getElementById('SDT');
+    var filter = /^[0]+[0-9]{9}/;
+    if (!filter.test(SDT.value)) {
+        alert('Vui long nhap so dien thoai hop le');
+        SDT.focus;
+        return false;
+    }
+    else {
+        return true;
+    }
+}}
