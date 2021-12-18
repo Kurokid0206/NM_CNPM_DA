@@ -78,3 +78,55 @@ function htmlTable(dataList) {
             ${dataList.reduce((html, object) => (html + datarow(object)), '')}
           </table>`
 }
+
+function insert_course(){
+    var course_name=document.getElementById("course_name");
+    var course_grade=document.getElementById("course_grade");
+    var course_class_num=document.getElementById("course_class_num");
+    var course_min_student=document.getElementById("course_min_student");
+    var fee=document.getElementById("fee");
+
+    // course_name=""
+    // course_grade=0
+    // course_class_num=0
+    // course_min_student=0
+    // fee=0
+
+    var xhtml = new XMLHttpRequest();
+    xhtml.onload = function() {
+        // console.log(this.responseText)
+        course_name.value=""
+        course_grade.value=0
+        course_class_num.value=0
+        course_min_student.value=0
+        fee.value=0
+    }
+
+    xhtml.open("POST", "insert-course");
+    xhtml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhtml.send(
+        'course_name='+course_name.value+//
+        '&course_grade='+course_grade.value+//
+        '&course_class_num='+course_class_num.value+//
+        '&course_min_student='+course_min_student.value+//
+        '&fee='+fee.value
+    );
+
+    return false;
+
+}
+
+
+function show_my_courses(){
+    var xhtml = new XMLHttpRequest();
+    xhtml.onload = function() {
+        var data=JSON.parse(this.responseText)
+        document.getElementById("my-courses").innerHTML=""
+        document.getElementById("my-courses").append(grid_render(data))
+    }
+
+    xhtml.open("GET", "my-courses");
+    xhtml.send();
+
+    return false;
+}
