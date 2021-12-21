@@ -98,8 +98,6 @@ app.post("/insert-course",function(req,res){
 			}
 		}
 	)
-
-	// res.send("ok")
 })
 
 app.get("/my-courses",function(req,res){
