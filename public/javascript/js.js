@@ -189,6 +189,10 @@ function show_my_courses(){
     xhtml.send();
 
     return false;
+<<<<<<< Updated upstream
+=======
+}
+>>>>>>> Stashed changes
 
 function checkEmail() { 
     var email = document.getElementById('email'); 
@@ -214,4 +218,8 @@ function checkSDT() {
     else {
         return true;
     }
+<<<<<<< Updated upstream
 }}
+=======
+}
+>>>>>>> Stashed changes
