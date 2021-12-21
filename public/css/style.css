@@ -167,3 +167,8 @@ li:hover .nav-child-menu {
   #find-courses{
       flex-direction: column;
   }
+
+  .schedule-table{
+      border: 1px #000000;
+      border-spacing: 15px;
+  }
