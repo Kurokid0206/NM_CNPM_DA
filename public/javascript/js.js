@@ -5,6 +5,8 @@ function show_find_course(){
     div.style.display = "flex";
     div = document.querySelector("#schedule")
     div.style.display = "none";
+    div = document.querySelector("#my-courses")
+    div.style.display = "none";
 }
 
 function show_insert_course() {
@@ -13,6 +15,8 @@ function show_insert_course() {
     div = document.querySelector("#find-courses")
     div.style.display = "none";
     div = document.querySelector("#schedule")
+    div.style.display = "none";
+    div = document.querySelector("#my-courses")
     div.style.display = "none";
 }
 
@@ -24,8 +28,12 @@ function show_schedule() {
     div.style.display = "none";
     div = document.querySelector("#find-courses")
     div.style.display = "none";
-
+    div = document.querySelector("#my-courses")
+    div.style.display = "none";
 }
+
+
+
 
 
 
@@ -118,11 +126,22 @@ function insert_course(){
 
 
 function show_my_courses(){
+    
+
     var xhtml = new XMLHttpRequest();
     xhtml.onload = function() {
         var data=JSON.parse(this.responseText)
         document.getElementById("my-courses").innerHTML=""
         document.getElementById("my-courses").append(grid_render(data))
+
+        var div = document.querySelector("#my-courses")
+        div.style.display = "flex";
+        div = document.querySelector("#schedule")
+        div.style.display = "none";
+        div = document.querySelector("#form-insert-course")
+        div.style.display = "none";
+        div = document.querySelector("#find-courses")
+        div.style.display = "none";
     }
 
     xhtml.open("GET", "my-courses");
