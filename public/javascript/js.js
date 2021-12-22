@@ -1,15 +1,32 @@
-var ids=["form-insert-course","find-courses","my-courses","registered-courses","form-become-teacher","form-change-info","form-update-cert"]
-
-
-function show(id){
-    
-    ids.forEach(id=>{
-        var div = document.querySelector("#"+id);
-        div.style.display = "none";
-    })
-    var div = document.querySelector("#"+id);
-        div.style.display = "flex";
+function show_find_course(){
+    var div = document.querySelector("#form-insert-course")
+    div.style.display = "none";
+    div = document.querySelector("#find-courses")
+    div.style.display = "flex";
+    div = document.querySelector("#schedule")
+    div.style.display = "none";
 }
+
+function show_insert_course() {
+    var div = document.querySelector("#form-insert-course")
+    div.style.display = "flex";
+    div = document.querySelector("#find-courses")
+    div.style.display = "none";
+    div = document.querySelector("#schedule")
+    div.style.display = "none";
+}
+
+
+function show_schedule() {
+    var div = document.querySelector("#schedule")
+    div.style.display = "flex";
+    div = document.querySelector("#form-insert-course")
+    div.style.display = "none";
+    div = document.querySelector("#find-courses")
+    div.style.display = "none";
+
+}
+
 
 
 function find_courses(){
@@ -51,94 +68,14 @@ function grid_render(data){
     return new_grid
 }
 
-function insert_course(){
-    var course_name=document.getElementById("course_name");
-    var course_grade=document.getElementById("course_grade");
-    var course_class_num=document.getElementById("course_class_num");
-    var course_min_student=document.getElementById("course_min_student");
-    var fee=document.getElementById("fee");
-
-    var xhtml = new XMLHttpRequest();
-    xhtml.onload = function() {
-        // console.log(this.responseText)
-        course_name.value=""
-        course_grade.value=0
-        course_class_num.value=0
-        course_min_student.value=0
-        fee.value=0
-    }
-
-    xhtml.open("POST", "insert-course");
-    xhtml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhtml.send(
-        'course_name='+course_name.value+//
-        '&course_grade='+course_grade.value+//
-        '&course_class_num='+course_class_num.value+//
-        '&course_min_student='+course_min_student.value+//
-        '&fee='+fee.value
-    );
-
-    return false;
-
+const row = html => `<tr>\n${html}</tr>\n`,
+      heading = object => row(Object.keys(object).reduce((html, heading) => (html + `<th>${heading}</th>`), '')),
+      datarow = object => row(Object.values(object).reduce((html, value) => (html + `<td>${value}</td>`), ''));
+//convert JSON to table                               
+function htmlTable(dataList) {
+  return `<table class="tbl">
+            ${heading(dataList[0])}
+            ${dataList.reduce((html, object) => (html + datarow(object)), '')}
+          </table>`
 }
 
-
-
-function show_my_courses(){
-    show('my-courses')
-    
-    var xhtml = new XMLHttpRequest();
-    xhtml.onload = function() {
-        var data=JSON.parse(this.responseText)
-        document.getElementById("my-courses-data").innerHTML=""
-        document.getElementById("my-courses-data").append(grid_render(data))  
-    }
-
-    xhtml.open("GET", "my-courses");
-    xhtml.send();
-
-    return false;
-}
-
-function checkEmail() { 
-    var email = document.getElementById('email'); 
-    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/; 
-    if (!filter.test(email.value)) { 
-        alert('Vui lòng nhập email hợp lệ');
-        email.focus; 
-        return false; 
-    }
-    else{ 
-        return true;
-    } 
-} 
-
-function checkSDT() {
-    var SDT = document.getElementById('SDT');
-    var filter = /^[0]+[0-9]{9}/;
-    if (!filter.test(SDT.value)) {
-        alert('Vui lòng nhập số điện thoại hợp lệ');
-        SDT.focus;
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-
-
-function show_registered_courses(){
-    show('registered-courses')
-    
-    var xhtml = new XMLHttpRequest();
-    xhtml.onload = function() {
-        var data=JSON.parse(this.responseText)
-        document.getElementById("registered-courses-data").innerHTML=""
-        document.getElementById("registered-courses-data").append(grid_render(data))  
-    }
-
-    xhtml.open("GET", "registered-courses");
-    xhtml.send();
-
-    return false;
-}
