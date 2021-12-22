@@ -1,4 +1,4 @@
-var ids=["form-insert-course","find-courses","my-courses","form-become-teacher"]
+var ids=["form-insert-course","find-courses","my-courses","form-become-teacher","form-change-info","form-update-cert"]
 
 
 function show(id){
@@ -98,4 +98,30 @@ function show_my_courses(){
     xhtml.send();
 
     return false;
+}
+
+function checkEmail() { 
+    var email = document.getElementById('email'); 
+    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/; 
+    if (!filter.test(email.value)) { 
+        alert('Vui lòng nhập email hợp lệ');
+        email.focus; 
+        return false; 
+    }
+    else{ 
+        return true;
+    } 
+} 
+
+function checkSDT() {
+    var SDT = document.getElementById('SDT');
+    var filter = /^[0]+[0-9]{9}/;
+    if (!filter.test(SDT.value)) {
+        alert('Vui lòng nhập số điện thoại hợp lệ');
+        SDT.focus;
+        return false;
+    }
+    else {
+        return true;
+    }
 }
