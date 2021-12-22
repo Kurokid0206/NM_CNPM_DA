@@ -83,7 +83,6 @@ function insert_course(){
 }
 
 
-
 function show_my_courses(){
     show('my-courses')
     
@@ -96,6 +95,30 @@ function show_my_courses(){
 
     xhtml.open("GET", "my-courses");
     xhtml.send();
+
+    return false;
+}
+
+function update_cert(){
+    var cert_name_more=document.getElementById("cert_name_more");
+    var cert_recv_date_more=document.getElementById("cert_recv_date_more");
+    var cert_provider_more=document.getElementById("cert_provider_more");
+
+    var xhtml = new XMLHttpRequest();
+    xhtml.onload = function() {
+        // console.log(this.responseText)
+        cert_name_more.value=""
+        cert_recv_date_more.value=0
+        cert_provider_more.value=""
+    }
+
+    xhtml.open("POST", "update-cert");
+    xhtml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhtml.send(
+        'cert_name_more='+cert_name_more.value+//
+        '&cert_recv_date_more='+cert_recv_date_more.value+//
+        '&cert_provider_more='+cert_provider_more.value
+    );
 
     return false;
 }

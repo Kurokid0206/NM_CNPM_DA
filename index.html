@@ -28,7 +28,7 @@
                  <li class="menu_item" id="become-teacher" onclick="show('form-become-teacher')">
                     <div>Trở thành giáo viên</div>
                 </li>
-                <li class="menu_item" id="edit-info">
+                <li class="menu_item" id="change-info">
                     <div onclick="show('form-change-info')">Chỉnh sửa thông tin</div>
                     <menu class="nav-child-menu">
                         <li class="menu_item" id="update-certificate" onclick="show('form-update-cert')">
@@ -114,34 +114,34 @@
             </div>
             <div class="form__element">
                 <h2 class="form__element_tag">Tên bằng cấp:</h2>
-                <input type="text" name="cert-name" id="cert-name" required>
+                <input type="text" name="cert_name" id="cert_name" required>
             </div>
             <div class="form__element">
                 <h2 class="form__element_tag">Ngày nhận bằng:</h2>
-                <input type="date" name="cert-recv-date" id="cert-recv-date" required>
+                <input type="date" name="cert_recv_date" id="cert_recv_date" required>
             </div>
             <div class="form__element">
                 <h2 class="form__element_tag">Nơi cấp:</h2>
-                <input type="text" name="cert-provider" id="cert-provider" required>
+                <input type="text" name="cert_provider" id="cert_provider" required>
             </div>
             <div class="form__element">
                 <button class="btn btn--submit" type="submit">Thêm bằng cấp</button>
             </div>
         </form>
     </div> 
-    <div class="form-container" id="form-update-cert">
-        <form class=" form" action="/update-cert" method="post">
+    <div class="form-container" id="form-update-cert" >
+        <form class=" form" action="/update-cert" method="post" onsubmit="return update_cert();">
             <div class="form__element">
                 <h2 class="form__element_tag">Tên bằng cấp:</h2>
-                <input type="text" name="cert-name-more"  required>
+                <input type="text" name="cert_name_more" id="cert_name_more" required>
             </div>
             <div class="form__element">
                 <h2 class="form__element_tag">Ngày nhận bằng:</h2>
-                <input type="date" name="cert-recv-date" id="cert-recv-date-more" required>
+                <input type="date" name="cert_recv_date_more" id="cert_recv_date_more" required>
             </div>
             <div class="form__element">
                 <h2 class="form__element_tag">Nơi cấp:</h2>
-                <input type="text" name="cert-provider" id="cert-provider-more" required>
+                <input type="text" name="cert_provider_more" id="cert_provider_more" required>
             </div>
             <div class="form__element">
                 <button class="btn btn--submit" type="submit">Thêm bằng cấp</button>
