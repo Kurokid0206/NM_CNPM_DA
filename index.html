@@ -17,8 +17,7 @@
                     </menu>
                 </li>
                 <li class="menu_item" id="show-list" onclick="">
-                    <div>Lịch học</div>
-                    
+                    <div onclick="show_schedule();">Lịch Học</div>
                 </li>
                 <li class="menu_item" id="show-history" onclick="">
                     <div>Lịch sử đăng ký</div>
@@ -56,6 +55,7 @@
             </div>
         </form>
     </div>
+
     <div class="form-container" id="form-insert-course">
         <form class=" form" action="/insert-course" method="post">
             <div class="form__element">
@@ -85,6 +85,41 @@
         
     </div>
 
+    <div class="schedule-table" id="schedule">
+        <h2>Schedule</h2>
+        <table style="width: 100%">
+            <tr>
+                <th>Ngày/Giờ</th>
+                <th>07g30 - 09g</th>
+                <th>09g - 11g30</th>
+                <th>12g30 - 14g</th>
+                <th>14g - 16g30</th>
+                <th>17g30 - 19g</th>
+                <th>19g - 20g30</th>
+            </tr>
+            <tr>
+                <td>Thứ Hai</td>
+            </tr>
+            <tr>
+                <td>Thứ Ba</td>
+            </tr>
+            <tr>
+                <td>Thứ Tư</td>
+            </tr>
+            <tr>
+                <td>Thứ Năm</td>
+            </tr>
+            <tr>
+                <td>Thứ Sáu</td>
+            </tr>
+            <tr>
+                <td>Thứ Bảy</td>
+            </tr>
+            <tr>
+                <td>Chủ Nhật</td>
+            </tr>
+        </table>
+    </div>
 
 </body>
 <script type="text/javascript" src="./javascript/js.js"></script>
