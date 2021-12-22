@@ -1,4 +1,4 @@
-var ids=["form-insert-course","find-courses","my-courses"]
+var ids=["form-insert-course","find-courses","my-courses","form-become-teacher"]
 
 
 function show(id){

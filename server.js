@@ -116,28 +116,3 @@ app.post("/insert-course",function(req,res){
 		}
 	)
 })
-
-
-config = {
-    user: 'sa', //nhớ đổi lại
-    password: '.', //nhớ đổi lại
-    server: 'localhost',
-    database: 'qlKH',
-    port: 1433,
-    options: {
-        trustServerCertificate: true // change to true for local dev / self-signed certs
-    }
-}
-
-async function getData() {
-	try {
-		let pool = await sql.connect(config);
-		let result = await pool.request().query(`select * from KhoaHoc`);
-		await pool.close();
-		console.log(result)
-	} catch (error) {
-		console.log(error.message);
-		return error.message
-	}
-};
-getData()
