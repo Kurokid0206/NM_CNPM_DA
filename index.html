@@ -25,13 +25,13 @@
                 <li class="menu_item" id="show-history" onclick="">
                     <div>Lịch sử đăng ký</div>
                 </li>
-                 <li class="menu_item" id="show-history" onclick="">
+                 <li class="menu_item" id="become-teacher" onclick="apply_teacher()">
                     <div>Trở thành giáo viên</div>
                 </li>
                 <li class="menu_item" id="edit-info">
-                    <div onclick="">Chỉnh sửa thông tin</div>
+                    <div onclick="change_info()">Chỉnh sửa thông tin</div>
                     <menu class="nav-child-menu">
-                        <li class="menu_item" id="update-certificate">
+                        <li class="menu_item" id="update-certificate" onclick="update_more_cert()">
                             <div onclick="">Cập nhật bằng cấp</div>
                         </li>
                     </menu>
@@ -79,7 +79,122 @@
             </div>
         </form>
     </div>
-    <div class="grid-container" id="my-courses">
+
+    <div id="my-courses">
+
+    <div class="form-container" id="form-change-info">
+        <form class=" form" action="/change-info" method="post">
+            <div class="form__element">
+                <h2 class="form__element_tag">Họ tên:</h2>
+                <input type="text" name="name" id="name"  required>
+            </div>
+            <div class="form__element">
+                <h2 class="form__element_tag">Ngày sinh:</h2>
+                <input type="date" name="birth" id="birth" required>
+            </div>
+            <div class="form__element">
+                <h2 class="form__element_tag">Email:</h2>
+                <input type="text" name="email" id="email" onfocusout="checkEmail()" required>
+            </div>
+            <div class="form__element">
+                <h2 class="form__element_tag">SĐT:</h2>
+                <input type="text" name="SDT" id="SDT" onfocusout="checkSDT()" required>
+            </div>
+            <div class="form__element">
+                <button class="btn btn--submit" type="submit">Lưu thay đổi thông tin cá nhân</button>
+            </div>
+        </form>
+    </div>
+    <div class="form-container" id="form-become-teacher">
+        <form class=" form" action="/become-teacher" method="post">
+            <div class="whattodo">
+                <p>Để đăng kí làm giáo viên bạn vui lòng điền vào form thông tin một
+                    bằng cấp bạn có để được phê duyệt thành giáo viên<br>
+                    Sau khi được phê duyệt bạn có thể chọn chức năng cập nhật để thêm vào các bằng cấp khác</p>
+            </div>
+            <div class="form__element">
+                <h2 class="form__element_tag">Tên bằng cấp:</h2>
+                <input type="text" name="cert-name" id="cert-name" required>
+            </div>
+            <div class="form__element">
+                <h2 class="form__element_tag">Ngày nhận bằng:</h2>
+                <input type="date" name="cert-recv-date" id="cert-recv-date" required>
+            </div>
+            <div class="form__element">
+                <h2 class="form__element_tag">Nơi cấp:</h2>
+                <input type="text" name="cert-provider" id="cert-provider" required>
+            </div>
+            <div class="form__element">
+                <button class="btn btn--submit" type="submit">Thêm bằng cấp</button>
+            </div>
+        </form>
+    </div> 
+    <div class="form-container" id="form-update-cert">
+        <form class=" form" action="/update-cert" method="post">
+            <div class="form__element">
+                <h2 class="form__element_tag">Tên bằng cấp:</h2>
+                <input type="text" name="cert-name"  required>
+            </div>
+        </form>
+    </div>
+    <div class="form-container" id="form-change-info">
+        <form class=" form" action="/change-info" method="post">
+            <div class="form__element">
+                <h2 class="form__element_tag">Họ tên:</h2>
+                <input type="text" name="name" id="name"  required>
+            </div>
+            <div class="form__element">
+                <h2 class="form__element_tag">Ngày sinh:</h2>
+                <input type="date" name="birth" id="birth" required>
+            </div>
+            <div class="form__element">
+                <h2 class="form__element_tag">Email:</h2>
+                <input type="text" name="email" id="email" onfocusout="checkEmail()" required>
+            </div>
+            <div class="form__element">
+                <h2 class="form__element_tag">SĐT:</h2>
+                <input type="text" name="SDT" id="SDT" onfocusout="checkSDT()" required>
+            </div>
+            <div class="form__element">
+                <button class="btn btn--submit" type="submit">Lưu thay đổi thông tin cá nhân</button>
+            </div>
+        </form>
+    </div>
+    <div class="form-container" id="form-become-teacher">
+        <form class=" form" action="/become-teacher" method="post">
+            <div class="whattodo">
+                <p>Để đăng kí làm giáo viên bạn vui lòng điền vào form thông tin một
+                    bằng cấp bạn có để được phê duyệt thành giáo viên<br>
+                    Sau khi được phê duyệt bạn có thể chọn chức năng cập nhật để thêm vào các bằng cấp khác</p>
+            </div>
+            <div class="form__element">
+                <h2 class="form__element_tag">Tên bằng cấp:</h2>
+                <input type="text" name="cert-name" id="cert-name" required>
+            </div>
+            <div class="form__element">
+                <h2 class="form__element_tag">Ngày nhận bằng:</h2>
+                <input type="date" name="cert-recv-date" id="cert-recv-date" required>
+            </div>
+            <div class="form__element">
+                <h2 class="form__element_tag">Nơi cấp:</h2>
+                <input type="text" name="cert-provider" id="cert-provider" required>
+            </div>
+            <div class="form__element">
+                <button class="btn btn--submit" type="submit">Thêm bằng cấp</button>
+            </div>
+        </form>
+    </div> 
+    <div class="form-container" id="form-update-cert">
+        <form class=" form" action="/update-cert" method="post">
+            <div class="form__element">
+                <h2 class="form__element_tag">Tên bằng cấp:</h2>
+                <input type="text" name="cert-name"  required>
+            </div>
+        </form>
+    </div>
+
+    <div id="schedule">
+
         
     </div>
 
