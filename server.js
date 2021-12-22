@@ -74,7 +74,7 @@ app.post("/find-courses",function(req,res){
 
 app.post("/insert-course",function(req,res){
 	//console.log(req.body)
-
+	
 	Promise.resolve('success').then(
 		async function () {
 			try {
