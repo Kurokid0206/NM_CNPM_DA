@@ -27,7 +27,7 @@ body {
 }
 
 .top-nav {
-    width: 1200px;
+    width: 2000px;
     height: 60px;
     max-width: 100%;
     display: flex;
@@ -119,20 +119,9 @@ li:hover .nav-child-menu {
     border-bottom: 1px black solid;
 }
 
-.whattodo{
-    font-size: 20px;
-    line-height: 1.2em;
-}
-
-
 .form .form__element input:focus {
     outline: none;
     border-bottom: 1px rgb(91, 125, 235) solid;
-}
-
-.whattodo{
-    font-size: 20px;
-    line-height: 1.2em;
 }
 
 .btn {
@@ -160,16 +149,8 @@ li:hover .nav-child-menu {
 .grid-container {
     display: grid;
     grid-template-columns: auto auto auto auto;
+    background-color: #2196F3;
     padding: 10px;
-    
-    position: relative;
-    margin: 0 auto;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-    background-color: #D1D6E4;
-    border-radius: 10px;
-
   }
 
 .grid-item {
@@ -184,10 +165,5 @@ li:hover .nav-child-menu {
   }
 
   #find-courses{
-      flex-direction: column;
-  }
-
-  #my-courses,#registered-courses{
-      display: none;
       flex-direction: column;
   }
