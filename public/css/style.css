@@ -187,6 +187,7 @@ li:hover .nav-child-menu {
       flex-direction: column;
   }
 
-  #my-courses{
+  #my-courses,#registered-courses{
       display: none;
+      flex-direction: column;
   }

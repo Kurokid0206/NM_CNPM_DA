@@ -1,4 +1,4 @@
-var ids=["form-insert-course","find-courses","my-courses","form-become-teacher","form-change-info","form-update-cert"]
+var ids=["form-insert-course","find-courses","my-courses","registered-courses","form-become-teacher","form-change-info","form-update-cert"]
 
 
 function show(id){
@@ -90,8 +90,8 @@ function show_my_courses(){
     var xhtml = new XMLHttpRequest();
     xhtml.onload = function() {
         var data=JSON.parse(this.responseText)
-        document.getElementById("my-courses").innerHTML=""
-        document.getElementById("my-courses").append(grid_render(data))  
+        document.getElementById("my-courses-data").innerHTML=""
+        document.getElementById("my-courses-data").append(grid_render(data))  
     }
 
     xhtml.open("GET", "my-courses");
@@ -124,4 +124,21 @@ function checkSDT() {
     else {
         return true;
     }
+}
+
+
+function show_registered_courses(){
+    show('registered-courses')
+    
+    var xhtml = new XMLHttpRequest();
+    xhtml.onload = function() {
+        var data=JSON.parse(this.responseText)
+        document.getElementById("registered-courses-data").innerHTML=""
+        document.getElementById("registered-courses-data").append(grid_render(data))  
+    }
+
+    xhtml.open("GET", "registered-courses");
+    xhtml.send();
+
+    return false;
 }

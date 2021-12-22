@@ -22,7 +22,7 @@
                 <li class="menu_item" id="show-list" onclick="">
                     <div>Lịch học</div>
                 </li>
-                <li class="menu_item" id="show-history" onclick="">
+                <li class="menu_item" id="show-history" onclick="show_registered_courses();">
                     <div>Lịch sử đăng ký</div>
                 </li>
                  <li class="menu_item" id="become-teacher" onclick="show('form-become-teacher')">
@@ -80,7 +80,19 @@
         </form>
     </div>
 
-    <div id="my-courses"></div>
+
+    <div class="grid-container" id="my-courses">
+        <h2>Khóa học bạn đã tạo:</h2>
+        <div id="my-courses-data">
+        </div>
+    </div>
+
+    <div class="grid-container" id="registered-courses">
+        <h2>Khóa học bạn đã đăng ký:</h2>
+        <div id="registered-courses-data">
+        </div>
+    </div>
+    
 
     <div class="form-container" id="form-change-info">
         <form class=" form" action="/change-info" method="post">
@@ -105,6 +117,7 @@
             </div>
         </form>
     </div>
+
     <div class="form-container" id="form-become-teacher">
         <form class=" form" action="/become-teacher" method="post">
             <div class="whattodo">
@@ -149,13 +162,11 @@
         </form>
     </div>
 
-    <div id="schedule">
-
-        
-    </div>
-
-
-
+    <div id="schedule"></div>
 </body>
+
+
+
+
 <script type="text/javascript" src="./javascript/js.js"></script>
 </html>
