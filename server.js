@@ -76,6 +76,7 @@ app.post("/find-courses",function(req,res){
 	)
 });
 
+
 app.post("/change-info",function(req,res){
 	res.redirect("/");
 	
@@ -87,6 +88,35 @@ app.post("/become-teacher",function(req,res){
 	
 	console.log(req.body);
 });
+
+app.post("/insert-course",function(req,res){
+	//console.log(req.body)
+
+	Promise.resolve('success').then(
+		async function () {
+			try {
+				let pool = await sql.connect(config);
+				let result = await pool.request()
+					.input('MaGV', sql.VARCHAR(10), 'GV001')
+					.input('TenKH', sql.NVarChar(50), `${req.body.course_name}`)
+					.input('Lop', sql.Int, `${req.body.course_grade}`)
+					.input('SoBuoi', sql.Int, `${req.body.course_class_num}`)
+					.input('SoHS', sql.Int, `${req.body.course_min_student}`)
+					.input('HocPhi', sql.Int, `${req.body.fee}`)
+					//.output('output_parameter', sql.VarChar(50))
+					.execute('sp_GV_TaoKH')
+				pool.close()
+				res.send(result.recordset)
+				console.log(result)
+				return
+			} catch (error) {
+				console.log(error.message);
+				return error.message
+			}
+		}
+	)
+})
+
 
 config = {
     user: 'sa', //nhớ đổi lại
