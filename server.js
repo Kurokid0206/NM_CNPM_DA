@@ -184,7 +184,7 @@ app.post("/become-teacher",function(req,res){
 			try {
 				let pool = await sql.connect(config);
 				let result = await pool.request()
-					.input('MaTK', sql.VARCHAR(10),'001')
+					.input('MaTK', sql.VARCHAR(10),req.session.user.MaTK)
 					.input('TenBang', sql.VarChar(10), `${req.body.cert_name}`)
 					.input('NgayCapBang', sql.Date, `${req.body.cert_recv_date}`)
 					.input('NoiCapBang', sql.NVARCHAR(50), `${req.body.cert_provider}`)
@@ -257,7 +257,7 @@ app.get("/my-courses",function(req,res){
 			try {
 				let pool = await sql.connect(config);
 				let result = await pool.request()
-					.input('MaGV', sql.VARCHAR(10), 'GV001')
+					.input('MaTK', sql.VARCHAR(10), req.session.user.MaTK)
 					//.output('output_parameter', sql.VarChar(50))
 					.execute('sp_GV_XemKH')
 				pool.close()
