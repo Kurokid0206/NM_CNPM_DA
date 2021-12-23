@@ -89,7 +89,6 @@ app.post("/login", (req, res) => {
                     .input("mk", sql.VarChar(50), req.body.password)
                     .output("MaTK", sql.VarChar(10))
                     .execute("sp_signIn")
-                console.log(result)
 				if(result.output.MaTK!=null){
 					req.session.user = result.output
 					res.redirect("/")
