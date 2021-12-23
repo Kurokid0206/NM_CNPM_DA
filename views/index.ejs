@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <title>Online learning</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <script src="/js/function.js"></script>
 </head>
 
 <body>
@@ -60,27 +59,30 @@
     </div>
 
     <div class="form-container" id="form-insert-course">
-        <form class=" form" action="/insert-course" method="post">
+        <form class="form" action="/insert-course" method="post" onsubmit="return insert_course();">
             <div class="form__element">
                 <h2 class="form__element_tag">Tên khóa học:</h2>
-                <input type="text" name="course_name" placeholder="VD:" required>
+                <input type="text" id="course_name" placeholder="VD:" required>
             </div>
             <div class="form__element">
                 <h2 class="form__element_tag">Lớp:</h2>
-                <input type="number" name="course_grade" placeholder="VD:" required>
+                <input type="number" id="course_grade" placeholder="VD:" required>
             </div>
             <div class="form__element">
                 <h2 class="form__element_tag">Số buổi dự kiến:</h2>
-                <input type="number" name="course_class_num" required>
+                <input type="number" id="course_class_num" required>
             </div>
             <div class="form__element">
                 <h2 class="form__element_tag">Số học sinh tối thiểu:</h2>
-                <input type="number" name="course_min_student" required>
+                <input type="number" id="course_min_student" required>
+            </div>
+            <div class="form__element">
+                <h2 class="form__element_tag">Học phí mỗi HV(VND):</h2>
+                <input type="number" id="fee" required>
             </div>
             <div class="form__element">
                 <button class="btn btn--submit" type="submit">Thêm</button>
             </div>
-            <div class="form-message" id="form-insert-bill-message"></div>
         </form>
     </div>
     <div class="form-container" id="form-change-info">
@@ -189,5 +191,5 @@
     </div>
 
 </body>
-
+<script src="/js/function.js"></script>
 </html>

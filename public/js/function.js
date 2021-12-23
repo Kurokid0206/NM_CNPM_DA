@@ -72,7 +72,6 @@ function insert_course(){
 
     var xhtml = new XMLHttpRequest();
     xhtml.onload = function() {
-        // console.log(this.responseText)
         course_name.value=""
         course_grade.value=0
         course_class_num.value=0
@@ -89,9 +88,7 @@ function insert_course(){
         '&course_min_student='+course_min_student.value+//
         '&fee='+fee.value
     );
-
     return false;
-
 }
 
 

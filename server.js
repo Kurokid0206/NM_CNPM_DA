@@ -48,10 +48,6 @@ app.get("/", function (req, res) {
     })}
 })
 
-app.post("/insert-course", function (req, res) {
-    res.redirect("/")
-    console.log(req.body)
-})
 
 app.post("/find-courses", function (req, res) {
     // tạo promise chắc chắn trả về
@@ -93,12 +89,12 @@ app.post("/login", (req, res) => {
                     .input("mk", sql.VarChar(50), req.body.password)
                     .output("MaTK", sql.VarChar(10))
                     .execute("sp_signIn")
-                
-                if (!result.recordsets[0]) {
-					const userToQuery = await pool.request().query(`select * from NguoiDung where tendn like '${req.body.username}'`)
-					req.session.user = userToQuery.recordset[0]
+                console.log(result)
+				if(result.output.MaTK!=null){
+					req.session.user = result.output
 					res.redirect("/")
 					//console.log(req.session.user)
+					//console.log(req.session.user.MaTK)
 				}
                 else {
 					res.render("login", {
@@ -230,14 +226,13 @@ app.post("/update-cert",function(req,res){
 	)
 });
 app.post("/insert-course",function(req,res){
-	//console.log(req.body)
 	
 	Promise.resolve('success').then(
 		async function () {
 			try {
 				let pool = await sql.connect(config);
 				let result = await pool.request()
-					.input('MaGV', sql.VARCHAR(10), 'GV00000001')
+					.input('MaTK', sql.VARCHAR(10),req.session.user.MaTK)
 					.input('TenKH', sql.NVarChar(50), `${req.body.course_name}`)
 					.input('Lop', sql.Int, `${req.body.course_grade}`)
 					.input('SoBuoi', sql.Int, `${req.body.course_class_num}`)
@@ -247,7 +242,7 @@ app.post("/insert-course",function(req,res){
 					.execute('sp_GV_TaoKH')
 				pool.close()
 				res.send(result.recordset)
-				console.log(result)
+				//console.log(result)
 				return
 			} catch (error) {
 				console.log(error.message);
