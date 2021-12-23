@@ -1,30 +1,14 @@
-function show_find_course(){
-    var div = document.querySelector("#form-insert-course")
-    div.style.display = "none";
-    div = document.querySelector("#find-courses")
-    div.style.display = "flex";
-    div = document.querySelector("#schedule")
-    div.style.display = "none";
-}
+var ids=["form-insert-course","find-courses","my-courses","registered-courses-data",
+"form-become-teacher","form-change-info","form-update-cert","schedule"]
 
-function show_insert_course() {
-    var div = document.querySelector("#form-insert-course")
-    div.style.display = "flex";
-    div = document.querySelector("#find-courses")
-    div.style.display = "none";
-    div = document.querySelector("#schedule")
-    div.style.display = "none";
-}
-
-
-function show_schedule() {
-    var div = document.querySelector("#schedule")
-    div.style.display = "flex";
-    div = document.querySelector("#form-insert-course")
-    div.style.display = "none";
-    div = document.querySelector("#find-courses")
-    div.style.display = "none";
-
+function show(id){
+    
+    ids.forEach(id=>{
+        var div = document.querySelector("#"+id);
+        div.style.display = "none";
+    })
+    var div = document.querySelector("#"+id);
+        div.style.display = "flex";
 }
 
 
@@ -126,6 +110,20 @@ function show_my_courses(){
 
     return false;
 }
+function show_registered_courses(){
+    show('registered-courses-data')
+
+    var xhtml = new XMLHttpRequest();
+    xhtml.onload = function() {
+        var data=JSON.parse(this.responseText)
+        document.getElementById("registered-courses-data").innerHTML=""
+        document.getElementById("registered-courses-data").append(grid_render(data))  
+    }
+
+    xhtml.open("GET", "registered-courses");
+    xhtml.send();
+
+} 
 
 function update_cert(){
     var cert_name_more=document.getElementById("cert_name_more");

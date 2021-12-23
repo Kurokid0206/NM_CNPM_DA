@@ -27,7 +27,7 @@ body {
 }
 
 .top-nav {
-    width: 2000px;
+    width: 1440px;
     height: 60px;
     max-width: 100%;
     display: flex;
@@ -174,4 +174,5 @@ li:hover .nav-child-menu {
       border-spacing: 15px;
       font-size: 1rem;
       text-align: center;
+      flex-direction: column;
   }

@@ -2,7 +2,7 @@
 const express = require("express")
 const session = require("express-session")
 const app = express()
-app.use(express.static("public"))
+app.use(express.static("./public"))
 const path = require("path")
 // parse application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }))
@@ -14,6 +14,7 @@ app.use(session({ secret: "Aloha123456", resave: false, saveUninitialized: true 
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"))
 const sql = require("mssql")
+const { redirect } = require("express/lib/response")
 // const { config } = require("nodemon");
 
 app.listen(3000, function () {
@@ -31,19 +32,6 @@ const config = {
     }
 }
 
-async function getData() {
-    try {
-        const pool = await sql.connect(config)
-        const result = await pool.request().query("select * from KhoaHoc")
-        await pool.close()
-        console.log(result)
-    } catch (error) {
-        console.log(error.message)
-        return error.message
-    }
-};
-getData()
-
 app.use((req, res, next) => {
     res.locals.user = req.session.user
     next()
@@ -51,15 +39,17 @@ app.use((req, res, next) => {
 
 // get home page
 app.get("/", function (req, res) {
+	if(!res.locals.user){
+		res.redirect("/login")
+	}
+	else{
     res.render("index", {
         user: res.locals.user
-    })
-    
+    })}
 })
 
 app.post("/insert-course", function (req, res) {
     res.redirect("/")
-
     console.log(req.body)
 })
 
@@ -108,6 +98,7 @@ app.post("/login", (req, res) => {
 					const userToQuery = await pool.request().query(`select * from NguoiDung where tendn like '${req.body.username}'`)
 					req.session.user = userToQuery.recordset[0]
 					res.redirect("/")
+					//console.log(req.session.user)
 				}
                 else {
 					res.render("login", {
@@ -124,7 +115,10 @@ app.post("/login", (req, res) => {
         }
     )
 })
-
+app.get("/log-out",function(req,res){
+	req.session.destroy();
+	res.redirect("/")
+})
 app.post("/signup", (req, res, next) => {
     Promise.resolve("success").then(
         async function () {
@@ -162,23 +156,6 @@ app.post("/signup", (req, res, next) => {
         }
     )
 })
-
-app.get("/test", async (req, res) => {
-    try {
-        const pool = await sql.connect(config)
-        const result = await pool.request().query("select * from NguoiDung where TenDN = 'asda'")
-
-        // console.log(result)
-        res.send(result.recordset[0])
-        await pool.close()
-    } catch (error) {
-        console.log(error.message)
-        return error.message
-    }
-})
-
-
-
 app.post("/change-info",function(req,res){
 	Promise.resolve('success').then(
 		async function () {
@@ -252,7 +229,6 @@ app.post("/update-cert",function(req,res){
 		}
 	)
 });
-	
 app.post("/insert-course",function(req,res){
 	//console.log(req.body)
 	
@@ -280,3 +256,44 @@ app.post("/insert-course",function(req,res){
 		}
 	)
 })
+app.get("/my-courses",function(req,res){
+	Promise.resolve('success').then(
+		async function () {
+			try {
+				let pool = await sql.connect(config);
+				let result = await pool.request()
+					.input('MaGV', sql.VARCHAR(10), 'GV001')
+					//.output('output_parameter', sql.VarChar(50))
+					.execute('sp_GV_XemKH')
+				pool.close()
+				res.send(result.recordset)
+				//console.log(result)
+				return
+			} catch (error) {
+				console.log(error.message);
+				return error.message
+			}
+		}
+	)
+}) 
+app.get("/registered-courses",function(req,res){
+	//console.log(req.body)
+	Promise.resolve('success').then(
+		async function () {
+			try {
+				let pool = await sql.connect(config);
+				let result = await pool.request()
+					.input('MaTK', sql.VARCHAR(10), '001')
+					//.output('output_parameter', sql.VarChar(50))
+					.execute('sp_User_XemKH')
+				pool.close()
+				res.send(result.recordset)
+				//console.log(result)
+				return
+			} catch (error) {
+				console.log(error.message);
+				return error.message
+			}
+		}
+	)
+}) 
