@@ -2,7 +2,7 @@ USE qlKH
 GO
 
 CREATE PROC sp_GV_TaoKH 
-	@MaGV varchar(10),
+	@MaTK varchar(10),
 	@TenKH nvarchar(50), 
 	@Lop int, 
 	@SoBuoi int, 
@@ -11,6 +11,12 @@ CREATE PROC sp_GV_TaoKH
 AS
 BEGIN TRAN
 	BEGIN TRY
+		if not exists (select * from GiaoVien where MaTK = @MaTK)
+		begin
+			raiserror(N'Bạn chưa đăng ký làm Giáo Viên, không thể tạo Khóa Học', 16, 1)
+			rollback tran
+		end
+		declare @MaGV as varchar(10) = (select MaGV from GiaoVien where MaTK = @MaTK)
 		declare @MaKH as varchar(10) = dbo.f_Auto_MaKH()
 		insert into KhoaHoc(MaKH, TenKhoaHoc, Lop, SoBuoiDuKien, SoHocSinhToiThieu, MaGV, HocPhi) 
 		values (@MaKH, @TenKH, @Lop, @SoBuoi, @SoHS, @MaGV, @HocPhi)
@@ -37,6 +43,13 @@ CREATE PROC sp_TK_ThamGiaKH
 AS
 BEGIN TRAN
 	BEGIN TRY
+		declare @MaGV as varchar(10) = (select MaGV from KhoaHoc where MaKH = @MaKH)
+		if exists (select * from GiaoVien where MaTK = @MaTK)
+			if (select MaGV from GiaoVien where MaTK = @MaTK) = @MaGV
+				begin
+					print N'Không thể tự tham gia khóa học của mình'
+					return
+				end
 		declare @NgayTG as date = getdate()
 		insert into ThamGiaKH(MaKH, MaTK, NgayThamGia, TinhTrangThanhToan)
 		values(@MaKH, @MaTK, @NgayTG, N'Chưa Thanh Toán')
@@ -121,7 +134,11 @@ BEGIN TRAN
 	BEGIN TRY
 		declare @Ngay as date = getdate()
 		declare @NgayBD as date = (select Ngay from LichHoc where MaKH = @MaKH and STT = 1)
-		if DATEDIFF(wk, @Ngay, @NgayBD) < 2 return
+		if DATEDIFF(wk, @Ngay, @NgayBD) < 2 
+		begin
+			raiserror(N'Không thể hủy Khóa Học bắt đầu trong 3 ngày', 16, 1)
+			rollback tran
+		end
 		else
 		begin	
 			delete from KhoaHoc where MaKH = @MaKH
@@ -243,7 +260,11 @@ AS
   BEGIN TRAN
   BEGIN TRY
     declare @NgayHoc as date = (select Ngay from LichHoc where MaKH = @MaKH and STT = @STT)
-	if DATEDIFF(day, GETDATE(), @NgayHoc) <= 3 return
+	if DATEDIFF(day, GETDATE(), @NgayHoc) <= 3
+	begin
+			raiserror(N'Không thể sửa đổi Lịch Học bắt đầu trong 3 ngày', 16, 1)
+			rollback tran
+		end
 	update LichHoc
 	set Ngay = @Ngay where MaKH = @MaKH and STT = @STT
 	update LichHoc
@@ -340,11 +361,12 @@ AS
     COMMIT TRANSACTION;
 GO
 
-create proc sp_GV_XemKH @MaGV varchar(8)
+create proc sp_GV_XemKH @MaTK varchar(10)
 AS
   BEGIN TRAN
   BEGIN TRY
-    SELECT * FROM KhoaHoc WHERE MaGV = @MaGV
+  declare @MaGV  as varchar(10) = (SELECT MaGV FROM GiaoVien WHERE MaTK=@MaTK)
+  select * from KhoaHoc where @MaGV=MaGV
   END TRY
   BEGIN CATCH
     SELECT
@@ -361,26 +383,3 @@ AS
     COMMIT TRANSACTION;
 GO
 	
-
-create proc sp_User_XemKH @MaTK varchar(8)
-AS
-  BEGIN TRAN
-  BEGIN TRY
-    SELECT kh.MaKH,kh.TenKhoaHoc FROM ThamGiaKH tg JOIN KhoaHoc kh on tg.MaKH=kh.MaKH WHERE MaTK = @MaTK
-  END TRY
-  BEGIN CATCH
-    SELECT
-      ERROR_NUMBER() AS ErrorNumber
-     ,ERROR_SEVERITY() AS ErrorSeverity
-     ,ERROR_STATE() AS ErrorState
-     ,ERROR_PROCEDURE() AS ErrorProcedure
-     ,ERROR_LINE() AS ErrorLine
-     ,ERROR_MESSAGE() AS ErrorMessage;
-    IF @@TRANCOUNT > 0
-      ROLLBACK TRANSACTION
-  END CATCH
-  IF @@TRANCOUNT > 0
-    COMMIT TRANSACTION;
-GO
---exec sp_User_XemKH '001'
---drop proc sp_User_XemKH
