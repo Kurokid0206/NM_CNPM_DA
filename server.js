@@ -300,7 +300,7 @@ app.get("/show-cert",function(req,res){
 					//.output('output_parameter', sql.VarChar(50))
 					.execute('sp_GV_XemBC')
 				pool.close()
-				res.send(result.recordset[0])
+				res.send(result.recordset)
 				//console.log(result)
 				return
 			} catch (error) {
