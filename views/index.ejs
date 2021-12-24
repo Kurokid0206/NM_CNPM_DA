@@ -6,12 +6,12 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 
-<body>
+<body onload="show('find-courses');find_courses();">
     <div class="nav-container">
         <nav class="top-nav">
             <menu class="nav-menu nav-menu--disable">
                 <li class="menu_item" id="find-course">
-                    <div onclick="show('find-courses');">Tìm kiếm khóa học</div>
+                    <div onclick="show('find-courses');find_courses();">Tìm kiếm khóa học</div>
                     <menu class="nav-child-menu">
                 <li class="menu_item" id="insert-course">
                     <div onclick="show('form-insert-course')">Tạo khóa học</div>
@@ -196,7 +196,16 @@
             </tr>
         </table>
     </div>
-
+    <div class="form-container" id="course-info">
+        
+        <form class="form"action="">
+            <h2>Thông tin khóa học X</h2>
+            <div class="form__element">Lớp</div>
+            <div class="form__element">Giá Tiền</div>
+            <div class="form__element">Đánh giá</div>
+        </form>
+        
+    </div>
 
 </body>
 <script src="/js/function.js"></script>

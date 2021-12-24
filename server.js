@@ -207,7 +207,7 @@ app.post("/update-cert",function(req,res){
 				let pool = await sql.connect(config);
 				let result = await pool.request()
 					.input('MaTK', sql.VARCHAR(10),req.session.user.MaTK)
-					.input('TenBang', sql.VarChar(10), `${req.body.cert_name_more}`)
+					.input('TenBang', sql.NVarChar(10), `${req.body.cert_name_more}`)
 					.input('NgayCapBang', sql.Date, `${req.body.cert_recv_date_more}`)
 					.input('NoiCapBang', sql.NVARCHAR(50), `${req.body.cert_provider_more}`)
 					//.output('MaGV',sql.VARCHAR(10))
@@ -300,7 +300,7 @@ app.get("/show-cert",function(req,res){
 					//.output('output_parameter', sql.VarChar(50))
 					.execute('sp_GV_XemBC')
 				pool.close()
-				res.send(result.recordset)
+				res.send(result.recordset[0])
 				//console.log(result)
 				return
 			} catch (error) {
@@ -310,3 +310,19 @@ app.get("/show-cert",function(req,res){
 		}
 	)
 }) 
+app.post("/get-info-course",function(req,res){
+	Promise.resolve('success').then(
+		async function () {
+			try {
+				let pool = await sql.connect(config);
+				let result = await pool.query(`select* from KhoaHoc where MaKH='${req.body.MaKH}'`)
+				res.send(result.recordset)
+				//console.log(result.recordset)
+				return
+			} catch (error) {
+				console.log(error.message);
+				return error.message
+			}
+		})
+
+})

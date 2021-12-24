@@ -1,4 +1,4 @@
-var ids=["form-insert-course","find-courses","my-courses","registered-courses-data",
+var ids=["form-insert-course","course-info","find-courses","my-courses","registered-courses-data",
 "form-become-teacher","form-change-info","form-update-cert","schedule","show-cert"]
 
 function show(id){
@@ -15,15 +15,14 @@ function show(id){
 
 function find_courses(){
     var input=document.getElementById("find-courses-input")
-    console.log(input.value)
+    //console.log(input.value)
     
 
     var xhtml = new XMLHttpRequest();
     xhtml.onload = function() {
-
         input.value="";
         var data=JSON.parse(this.responseText)
-        console.log(data)
+        //console.log(data)
         document.getElementById("search-result").innerHTML=grid_render(data)
         //document.getElementById("search-result").innerHTML=htmlTable(data)
     }
@@ -41,7 +40,7 @@ function grid_render(data){
     data.forEach(element => {
         div=div+`<div class="grid-item">
         <div>${element.TenKhoaHoc}</div>
-        <button>Join</button></div>
+        <button onclick="show_KH('${element.MaKH}')">Join</button></div>
         `
         //div=div+`<div class="grid-item">${element.TenKH}</div>`
     })
@@ -59,7 +58,6 @@ function grid_render_BC(data){
         <div>${element.NoiCap}</div>
         </div>
         `
-        //div=div+`<div class="grid-item">${element.TenKH}</div>`
     })
     div=div+`</div>`
     return div
@@ -189,4 +187,27 @@ function checkSDT() {
     else {
         return true;
     }
+}
+function show_KH(MaKH){
+    document.getElementById("course-info").style.display="block";
+    var xhtml = new XMLHttpRequest();
+    xhtml.onload = function() {
+        var data=JSON.parse(this.responseText)
+        document.getElementById("course-info").innerHTML=render_courses_info(data[0])
+    }
+
+    xhtml.open("POST", "get-info-course");
+    xhtml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhtml.send("MaKH="+MaKH);
+}
+
+function render_courses_info(data){
+    return `
+    <form class="form"action="">
+    <h2>Thông tin khóa học ${data.TenKhoaHoc}</h2>
+    <div class="form__element">${data.Lop}</div>
+    <div class="form__element">${data.DanhGiaKH}</div>
+    <div class="form__element">${data.HocPhi}</div>
+    <button type="button">Tham Gia</button>
+    </form>`
 }
