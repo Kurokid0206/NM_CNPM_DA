@@ -165,7 +165,7 @@ app.post("/change-info",function(req,res){
 					//.output('output_parameter', sql.VarChar(50))
 					.execute('sp_ND_CapNhatTT')
 				pool.close()
-				res.sendFile(__dirname+'/index.html');
+				res.render("index");
 				console.log(result)
 
 				return
@@ -190,7 +190,7 @@ app.post("/become-teacher",function(req,res){
 					//.output('MaGV',sql.VARCHAR(10))
 					.execute('sp_TK_DangKyGV')
 				pool.close()
-				res.sendFile(__dirname+'/index.html');
+				res.render("index");
 				console.log(result)
 				return
 			} catch (error) {
