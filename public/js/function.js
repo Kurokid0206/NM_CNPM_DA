@@ -24,8 +24,7 @@ function find_courses(){
         input.value="";
         var data=JSON.parse(this.responseText)
         console.log(data)
-        document.getElementById("search-result").innerHTML=""
-        document.getElementById("search-result").append(grid_render(data))
+        document.getElementById("search-result").innerHTML=grid_render(data)
         //document.getElementById("search-result").innerHTML=htmlTable(data)
     }
 
@@ -36,32 +35,21 @@ function find_courses(){
 }
 
 function grid_render(data){
-    var new_grid=document.createElement('div')
-    new_grid.className="grid-container"
+    var div=`<div class="grid-container">`
+
     //console.log(headings)
     data.forEach(element => {
-        var item = document.createElement('div');
-        item.className="grid-item"
-        Object.keys(element).forEach(heading=>{
-            var data=document.createElement('div')
-            data.innerHTML=element[heading]
-            item.append(data)
-        })
-        new_grid.append(item)
+        div=div+`<div class="grid-item">
+        <div>${element.TenKhoaHoc}</div>
+        <button>Join</button></div>
+        `
+        //div=div+`<div class="grid-item">${element.TenKH}</div>`
     })
-    return new_grid
+    div=div+`</div>`
+    return div
 }
 
-const row = html => `<tr>\n${html}</tr>\n`,
-      heading = object => row(Object.keys(object).reduce((html, heading) => (html + `<th>${heading}</th>`), '')),
-      datarow = object => row(Object.values(object).reduce((html, value) => (html + `<td>${value}</td>`), ''));
-//convert JSON to table                               
-function htmlTable(dataList) {
-  return `<table class="tbl">
-            ${heading(dataList[0])}
-            ${dataList.reduce((html, object) => (html + datarow(object)), '')}
-          </table>`
-}
+
 
 function insert_course(){
     var course_name=document.getElementById("course_name");
@@ -98,8 +86,7 @@ function show_my_courses(){
     var xhtml = new XMLHttpRequest();
     xhtml.onload = function() {
         var data=JSON.parse(this.responseText)
-        document.getElementById("my-courses").innerHTML=""
-        document.getElementById("my-courses").append(grid_render(data))  
+        document.getElementById("my-courses").innerHTML=grid_render(data)
     }
 
     xhtml.open("GET", "my-courses");
@@ -113,8 +100,7 @@ function show_registered_courses(){
     var xhtml = new XMLHttpRequest();
     xhtml.onload = function() {
         var data=JSON.parse(this.responseText)
-        document.getElementById("registered-courses-data").innerHTML=""
-        document.getElementById("registered-courses-data").append(grid_render(data))  
+        document.getElementById("registered-courses-data").innerHTML=grid_render(data) 
     }
 
     xhtml.open("GET", "registered-courses");

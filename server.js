@@ -61,7 +61,7 @@ app.post("/find-courses", function (req, res) {
                     .execute("sp_findCourses")
                 pool.close()
                 res.send(result.recordset)
-                console.log(result)
+                //console.log(result)
                 return
             } catch (error) {
                 console.log(error.message)
