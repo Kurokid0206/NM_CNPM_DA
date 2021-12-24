@@ -277,12 +277,12 @@ app.get("/registered-courses",function(req,res){
 			try {
 				let pool = await sql.connect(config);
 				let result = await pool.request()
-					.input('MaTK', sql.VARCHAR(10), '001')
+					.input('MaTK', sql.VARCHAR(10), req.session.user.MaTK)
 					//.output('output_parameter', sql.VarChar(50))
 					.execute('sp_User_XemKH')
 				pool.close()
 				res.send(result.recordset)
-				//console.log(result)
+				console.log(result)
 				return
 			} catch (error) {
 				console.log(error.message);
