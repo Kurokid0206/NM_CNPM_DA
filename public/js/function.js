@@ -1,5 +1,5 @@
 var ids=["form-insert-course","find-courses","my-courses","registered-courses-data",
-"form-become-teacher","form-change-info","form-update-cert","schedule"]
+"form-become-teacher","form-change-info","form-update-cert","schedule","show-cert"]
 
 function show(id){
     
@@ -42,6 +42,22 @@ function grid_render(data){
         div=div+`<div class="grid-item">
         <div>${element.TenKhoaHoc}</div>
         <button>Join</button></div>
+        `
+        //div=div+`<div class="grid-item">${element.TenKH}</div>`
+    })
+    div=div+`</div>`
+    return div
+}
+
+function grid_render_BC(data){
+    var div=`<div class="grid-container">`
+    data.forEach(element => {
+        var date=element.NgayCap.split('T')[0]
+        div=div+`<div class="grid-item">
+        <div>${element.TenBang}</div>
+        <div>${date}</div>
+        <div>${element.NoiCap}</div>
+        </div>
         `
         //div=div+`<div class="grid-item">${element.TenKH}</div>`
     })
@@ -94,6 +110,7 @@ function show_my_courses(){
 
     return false;
 }
+
 function show_registered_courses(){
     show('registered-courses-data')
 
@@ -131,6 +148,22 @@ function update_cert(){
 
     return false;
 }
+
+
+function show_cert(){
+    show('show-cert')
+
+    var xhtml = new XMLHttpRequest();
+    xhtml.onload = function() {
+        var data=JSON.parse(this.responseText)
+        document.getElementById("show-cert").innerHTML=grid_render_BC(data)
+    }
+
+    xhtml.open("GET", "show-cert");
+    xhtml.send();
+
+}
+
 
 function checkEmail() { 
     var email = document.getElementById('email'); 

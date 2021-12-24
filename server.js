@@ -157,7 +157,7 @@ app.post("/change-info",function(req,res){
 			try {
 				let pool = await sql.connect(config);
 				let result = await pool.request()
-					.input('MaTK', sql.VARCHAR(10),'001')
+					.input('MaTK', sql.VARCHAR(10),req.session.user.MaTK)
 					.input('HoTen', sql.NVarChar(50), `${req.body.name}`)
 					.input('NgaySinh', sql.Date, `${req.body.birth}`)
 					.input('Email', sql.VARCHAR(50), `${req.body.email}`)
@@ -165,9 +165,8 @@ app.post("/change-info",function(req,res){
 					//.output('output_parameter', sql.VarChar(50))
 					.execute('sp_ND_CapNhatTT')
 				pool.close()
-				res.render("index");
-				console.log(result)
-
+				res.redirect("/")
+				//console.log(result)
 				return
 			} catch (error) {
 				console.log(error.message);
@@ -190,8 +189,8 @@ app.post("/become-teacher",function(req,res){
 					//.output('MaGV',sql.VARCHAR(10))
 					.execute('sp_TK_DangKyGV')
 				pool.close()
-				res.render("index");
-				console.log(result)
+				res.redirect("/")
+				//console.log(result)
 				return
 			} catch (error) {
 				console.log(error.message);
@@ -207,7 +206,7 @@ app.post("/update-cert",function(req,res){
 			try {
 				let pool = await sql.connect(config);
 				let result = await pool.request()
-					.input('MaGV', sql.VARCHAR(10),'GV00000001')
+					.input('MaTK', sql.VARCHAR(10),req.session.user.MaTK)
 					.input('TenBang', sql.VarChar(10), `${req.body.cert_name_more}`)
 					.input('NgayCapBang', sql.Date, `${req.body.cert_recv_date_more}`)
 					.input('NoiCapBang', sql.NVARCHAR(50), `${req.body.cert_provider_more}`)
@@ -215,7 +214,7 @@ app.post("/update-cert",function(req,res){
 					.execute('sp_GV_CapNhatBC')
 				pool.close()
 				res.send(result.recordset)
-				console.log(result)
+				//console.log(result)
 				return
 			} catch (error) {
 				console.log(error.message);
@@ -282,7 +281,27 @@ app.get("/registered-courses",function(req,res){
 					.execute('sp_User_XemKH')
 				pool.close()
 				res.send(result.recordset)
-				console.log(result)
+				//console.log(result)
+				return
+			} catch (error) {
+				console.log(error.message);
+				return error.message
+			}
+		}
+	)
+})
+app.get("/show-cert",function(req,res){
+	Promise.resolve('success').then(
+		async function () {
+			try {
+				let pool = await sql.connect(config);
+				let result = await pool.request()
+					.input('MaTK', sql.VARCHAR(10), req.session.user.MaTK)
+					//.output('output_parameter', sql.VarChar(50))
+					.execute('sp_GV_XemBC')
+				pool.close()
+				res.send(result.recordset)
+				//console.log(result)
 				return
 			} catch (error) {
 				console.log(error.message);

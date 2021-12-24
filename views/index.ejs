@@ -27,8 +27,13 @@
             <li class="menu_item" id="show-history" onclick="show_registered_courses();">
                 <div>Lịch sử đăng ký</div>
             </li>
-            <li class="menu_item" id="show-history" onclick="show('form-become-teacher');">
-                <div>Trở thành giáo viên</div>
+            <li class="menu_item" id="show-become-teacher">
+                <div onclick="show('form-become-teacher');"> Trở thành giáo viên</div>
+                <menu class="nav-child-menu">
+                    <li class="menu_item" id="show-certificate">
+                        <div  onclick="show_cert();">Xem bằng cấp</div>
+                    </li>
+                </menu>
             </li>
             <li class="menu_item" id="change-info">
                 <div onclick="show('form-change-info')">Chỉnh sửa thông tin</div>
@@ -109,7 +114,7 @@
         </form>
     </div>
     <div class="form-container" id="form-become-teacher">
-        <form class=" form" action="/become-teacher" method="post" onsubmit="become_teacher();">
+        <form class=" form" action="/become-teacher" method="post">
             <div class="whattodo">
                 <p>Để đăng kí làm giáo viên bạn vui lòng điền vào form thông tin một
                     bằng cấp bạn có để được phê duyệt thành giáo viên<br>
@@ -154,6 +159,8 @@
     <div class="form-container" id="registered-courses-data"></div>
     <div class="form-container" id="my-courses">
     </div>
+    <div class="form-container" id="show-cert" >
+    </div>
     <div class="form-container schedule-table" id="schedule">
         <h2>Schedule</h2>
         <table style="width: 100%">
@@ -189,6 +196,7 @@
             </tr>
         </table>
     </div>
+
 
 </body>
 <script src="/js/function.js"></script>
