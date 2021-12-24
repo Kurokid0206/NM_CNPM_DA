@@ -183,7 +183,7 @@ app.post("/become-teacher",function(req,res){
 				let pool = await sql.connect(config);
 				let result = await pool.request()
 					.input('MaTK', sql.VARCHAR(10),req.session.user.MaTK)
-					.input('TenBang', sql.VarChar(10), `${req.body.cert_name}`)
+					.input('TenBang', sql.NVarChar(50), `${req.body.cert_name}`)
 					.input('NgayCapBang', sql.Date, `${req.body.cert_recv_date}`)
 					.input('NoiCapBang', sql.NVARCHAR(50), `${req.body.cert_provider}`)
 					//.output('MaGV',sql.VARCHAR(10))
@@ -207,7 +207,7 @@ app.post("/update-cert",function(req,res){
 				let pool = await sql.connect(config);
 				let result = await pool.request()
 					.input('MaTK', sql.VARCHAR(10),req.session.user.MaTK)
-					.input('TenBang', sql.VarChar(10), `${req.body.cert_name_more}`)
+					.input('TenBang', sql.VarChar(50), `${req.body.cert_name_more}`)
 					.input('NgayCapBang', sql.Date, `${req.body.cert_recv_date_more}`)
 					.input('NoiCapBang', sql.NVARCHAR(50), `${req.body.cert_provider_more}`)
 					//.output('MaGV',sql.VARCHAR(10))
