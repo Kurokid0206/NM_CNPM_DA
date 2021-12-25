@@ -1,5 +1,5 @@
 var ids=["form-insert-course","course-info","find-courses","my-courses","registered-courses-data",
-"form-become-teacher","form-change-info","form-update-cert","schedule","show-cert"]
+"form-become-teacher","form-change-info","form-update-cert","schedule","show-cert","show-profile"]
 
 function show(id){
     
@@ -210,4 +210,35 @@ function render_courses_info(data){
     <div class="form__element">${data.HocPhi}</div>
     <button type="button">Tham Gia</button>
     </form>`
+}
+
+function grid_render_profile(data){
+    var div=`<div class="grid-container">`
+    data.forEach(element => {
+        var date=element.NgaySinh.split('T')[0]
+        div=div+`<div class="grid-item">
+        <div>${element.TenDN}</div>
+        <div>${element.HoTen}</div>
+        <div>${date}</div>
+        <div>${element.Email}</div>
+        <div>${element.SDT}</div>
+        </div>
+        `
+    })
+    div=div+`</div>`
+    return div
+}
+
+function show_profile() {
+    show('show-profile')
+    //document.getElementById("show-profile").style.display="block"
+    var xhtml = new XMLHttpRequest();
+    xhtml.onload = function() {
+        var data=JSON.parse(this.responseText)
+        console.log(data)
+        document.getElementById("show-profile").innerHTML=grid_render_profile(data)
+        
+    }
+    xhtml.open("GET", "show-profile");
+    xhtml.send();
 }

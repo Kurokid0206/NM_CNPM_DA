@@ -326,3 +326,19 @@ app.post("/get-info-course",function(req,res){
 		})
 
 })
+
+app.get("/show-profile", (req,res) => {
+	Promise.resolve('success').then(
+		async function () {
+			try {
+				let pool = await sql.connect(config);
+				let result = await pool.query(`select* from NguoiDung where MaTK='${req.session.user.MaTK}'`)
+				res.send(result.recordset)
+				console.log(result.recordset)
+				return
+			} catch (error) {
+				console.log(error.message);
+				return error.message
+			}
+		})
+})
