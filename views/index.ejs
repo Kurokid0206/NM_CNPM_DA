@@ -43,8 +43,19 @@
                 </li>
                 </menu>
             </li>
-            <li class="menu_item" id="logout" onclick="">
-                <form action="/log-out" method="post"><a href="/log-out" style="text-decoration: none;color: black;"><div>Đăng Xuất</div></a></form>
+            <li class="menu_item" id="show-profileinfo">
+                <div onclick="show_profile();">Thông tin cá nhân</div>
+                <menu class="nav-child-menu">
+                    <li class="menu_item" id="logout" onclick="">
+                        <div>
+                        <form action="/log-out" method="post">
+                            <a href="/log-out" style="text-decoration: none;color: black;">
+                                <div>Đăng Xuất</div>
+                            </a>
+                        </form>
+                        </div>
+                    </li>
+                </menu>
             </li>
             </menu>
         </nav>
@@ -160,6 +171,8 @@
     <div class="form-container" id="my-courses">
     </div>
     <div class="form-container" id="show-cert" >
+    </div>
+    <div class="form-container" id="show-profile" >
     </div>
     <div class="form-container schedule-table" id="schedule">
         <h2>Schedule</h2>
