@@ -21,8 +21,13 @@
                 </li>
             </menu>
             </li>
-            <li class="menu_item" id="show-list" onclick="show_schedule();">
-                <div>Lịch Học</div>
+            <li class="menu_item" id="show-list" >
+                <div onclick="show_schedule();">Lịch Học</div>
+                <menu class="nav-child-menu">
+                    <li class="menu_item" id="show-teach">
+                        <div  onclick="show_teach_schedule();">Lịch dạy</div>
+                    </li>
+                </menu>
             </li>
             <li class="menu_item" id="show-history" onclick="show_registered_courses();">
                 <div>Lịch sử đăng ký</div>
@@ -174,50 +179,8 @@
     </div>
     <div class="form-container" id="show-profile" >
     </div>
-    <div class="form-container schedule-table" id="schedule">
-        <h2>Schedule</h2>
-        <table style="width: 100%">
-            <thead>
-                <tr>
-                    <th>Ngày/Giờ</th>
-                    <th>07g30 - 09g</th>
-                    <th>09g - 11g30</th>
-                    <th>12g30 - 14g</th>
-                    <th>14g - 16g30</th>
-                    <th>17g30 - 19g</th>
-                    <th>19g - 20g30</th>
-                </tr>
-            </thead>
-            <tbody id="table-data">
-                <tr>
-                    <th>Thứ Hai</th>
-                    <div class="table-content" id="Monday">
-                        <th id="monday7">Éo học gì cả</th>
-                        <th id="monday9">Éo học gì cả</th>
-                    </div>
-                </tr>
-                <tr>
-                    <th>Thứ Ba</th>
-                </tr>
-                <tr>
-                    <th>Thứ Tư</th>
-                </tr>
-                <tr>
-                    <th>Thứ Năm</th>
-                </tr>
-                <tr>
-                    <th>Thứ Sáu</th>
-                </tr>
-                <tr>
-                    <th>Thứ Bảy</th>
-                </tr>
-                <tr>
-                    <th>Chủ Nhật</th>
-                </tr>
-            </tbody>
-            
-        </table>
-    </div>
+    <div class="form-container schedule-table" id="schedule"> </div>
+    <div class="form-container schedule-table" id="teach_schedule"></div>
     <div class="form-container" id="course-info">
         
         <form class="form"action="">

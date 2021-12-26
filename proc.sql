@@ -51,6 +51,10 @@ BEGIN TRAN
 					return
 				end
 		declare @NgayTG as date = getdate()
+		if exists (select * from ThamGiaKH where MaTK = @MaTK and MaKH=@MaKH)
+			begin
+				raiserror(N'Không thể tham gia khoá học đã tham gia rồi',16,1)
+			end
 		insert into ThamGiaKH(MaKH, MaTK, NgayThamGia, TinhTrangThanhToan)
 		values(@MaKH, @MaTK, @NgayTG, N'Chưa Thanh Toán')
 	END TRY
@@ -528,6 +532,28 @@ AS
   BEGIN TRY
  
   select kh.TenKhoaHoc,kh.MaKH,lh.Ngay,lh.ThoiGian from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH Join LichHoc lh on kh.MaKH=lh.MaKH  where @MaTK=MaTK and datediff(day,getDate(),lh.Ngay)>=0 order by lh.Ngay
+  END TRY
+  BEGIN CATCH
+    SELECT
+      ERROR_NUMBER() AS ErrorNumber
+     ,ERROR_SEVERITY() AS ErrorSeverity
+     ,ERROR_STATE() AS ErrorState
+     ,ERROR_PROCEDURE() AS ErrorProcedure
+     ,ERROR_LINE() AS ErrorLine
+     ,ERROR_MESSAGE() AS ErrorMessage;
+    IF @@TRANCOUNT > 0
+      ROLLBACK TRANSACTION
+  END CATCH
+  IF @@TRANCOUNT > 0
+    COMMIT TRANSACTION;
+GO
+
+create proc sp_GV_XemLH @MaTK varchar(10)
+AS
+  BEGIN TRAN
+  BEGIN TRY
+ 
+  select kh.TenKhoaHoc,kh.MaKH,lh.Ngay,lh.ThoiGian from KhoaHoc kh Join LichHoc lh on kh.MaKH=lh.MaKH Join GiaoVien gv on gv.MaGV=kh.MaGV where @MaTK=MaTK and datediff(day,getDate(),lh.Ngay)>=0 order by lh.Ngay
   END TRY
   BEGIN CATCH
     SELECT

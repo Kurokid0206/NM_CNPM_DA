@@ -135,16 +135,16 @@ GO
 --
 -- Inserting data into table dbo.GiaoVien
 --
-INSERT dbo.GiaoVien(MaGV, MaTK) VALUES ('GV00000000', 'TK00000013')
+INSERT dbo.GiaoVien(MaGV, MaTK) VALUES ('GV00000000', 'TK00000007')
 INSERT dbo.GiaoVien(MaGV, MaTK) VALUES ('GV00000001', 'TK00000019')
 INSERT dbo.GiaoVien(MaGV, MaTK) VALUES ('GV00000002', 'TK00000000')
 INSERT dbo.GiaoVien(MaGV, MaTK) VALUES ('GV00000003', 'TK00000017')
-INSERT dbo.GiaoVien(MaGV, MaTK) VALUES ('GV00000004', 'TK00000013')
+INSERT dbo.GiaoVien(MaGV, MaTK) VALUES ('GV00000004', 'TK00000009')
 INSERT dbo.GiaoVien(MaGV, MaTK) VALUES ('GV00000005', 'TK00000013')
 INSERT dbo.GiaoVien(MaGV, MaTK) VALUES ('GV00000006', 'TK00000002')
 INSERT dbo.GiaoVien(MaGV, MaTK) VALUES ('GV00000007', 'TK00000008')
 INSERT dbo.GiaoVien(MaGV, MaTK) VALUES ('GV00000008', 'TK00000011')
-INSERT dbo.GiaoVien(MaGV, MaTK) VALUES ('GV00000009', 'TK00000019')
+INSERT dbo.GiaoVien(MaGV, MaTK) VALUES ('GV00000009', 'TK00000010')
 GO
 
 --
@@ -205,26 +205,26 @@ GO
 --
 -- Inserting data into table dbo.BangCap
 --
-INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (9, N'GV00000008', N'Bằng Sư Phạm Công Nghệ Thông Tin', '1971-03-09', N'Khoa Kỹ thuật và Công nghệ')
+INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (1, N'GV00000008', N'Bằng Sư Phạm Công Nghệ Thông Tin', '1971-03-09', N'Khoa Kỹ thuật và Công nghệ')
 INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (2, N'GV00000001', N'Chứng Chỉ Sư Phạm Công Nghệ Thông Tin', '1973-10-06', N'Khoa Quốc tế')
-INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (6, N'GV00000006', N'Chứng Chỉ Sư Phạm Văn', '2006-07-05', N'Trường Đại học Nông Lâm')
-INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (5, N'GV00000004', N'Chứng Chỉ Sư Phạm Ngoại Ngữ', '1995-10-02', N'Trường Đại học Khoa học Tự nhiên')
-INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (9, N'GV00000009', N'Bằng Sư Phạm Công Nghệ Thông Tin', '2010-11-23', N'Khoa Sau đại học')
-INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (7, N'GV00000007', N'Chứng Chỉ Sư Phạm Văn', '1981-01-23', N'Khoa Quản trị Kinh doanh')
-INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (2, N'GV00000002', N'Bằng Sư Phạm Toán', '2010-09-09', N'Trường Đại học Quốc tế')
+INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (1, N'GV00000006', N'Chứng Chỉ Sư Phạm Văn', '2006-07-05', N'Trường Đại học Nông Lâm')
+INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (1, N'GV00000004', N'Chứng Chỉ Sư Phạm Ngoại Ngữ', '1995-10-02', N'Trường Đại học Khoa học Tự nhiên')
+INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (1, N'GV00000009', N'Bằng Sư Phạm Công Nghệ Thông Tin', '2010-11-23', N'Khoa Sau đại học')
+INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (2, N'GV00000007', N'Chứng Chỉ Sư Phạm Văn', '1981-01-23', N'Khoa Quản trị Kinh doanh')
+INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (1, N'GV00000002', N'Bằng Sư Phạm Toán', '2010-09-09', N'Trường Đại học Quốc tế')
 INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (0, N'GV00000000', N'Chứng Chỉ Sư Phạm Toán', '1987-09-03', N'Trường Đại học Sư phạm')
-INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (3, N'GV00000003', N'Chứng Chỉ Sư Phạm Toán', '1970-03-05', N'Trường Đại học Công nghệ Thông tin và Truyền thông')
-INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (5, N'GV00000005', N'Chứng Chỉ Sư Phạm Công Nghệ Thông Tin', '2016-11-27', N'Trường Đại học Ngoại ngữ')
+INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (2, N'GV00000003', N'Chứng Chỉ Sư Phạm Toán', '1970-03-05', N'Trường Đại học Công nghệ Thông tin và Truyền thông')
+INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (2, N'GV00000005', N'Chứng Chỉ Sư Phạm Công Nghệ Thông Tin', '2016-11-27', N'Trường Đại học Ngoại ngữ')
 INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (1, N'GV00000001', N'Bằng Sư Phạm Ngoại Ngữ', '1995-06-13', N'Trường Đại học Công nghệ Thông tin')
-INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (8, N'GV00000008', N'Bằng Sư Phạm Toán', '1970-01-05', N'Trường Đại học Khoa học Xã hội và Nhân văn')
-INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (10, N'GV00000009', N'Bằng Sư Phạm Ngoại Ngữ', '1992-06-12', N'Trường Đại học Sư phạm')
-INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (6, N'GV00000005', N'Bằng Sư Phạm Văn', '1970-01-01', N'Khoa Quốc tế')
-INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (8, N'GV00000007', N'Bằng Sư Phạm Ngoại Ngữ', '1990-01-15', N'Khoa Giáo dục thể chất')
-INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (7, N'GV00000006', N'Bằng Sư Phạm Toán', '1983-01-19', N'Phân hiệu Đại học Quốc gia Thành phố Hồ Chí Minh t')
-INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (3, N'GV00000002', N'Bằng Sư Phạm Toán', '1983-11-02', N'Trường Đại học Y Dược')
-INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (4, N'GV00000004', N'Bằng Sư Phạm Toán', '1972-07-30', N'Trường Đại học Khoa học')
+INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (2, N'GV00000008', N'Bằng Sư Phạm Toán', '1970-01-05', N'Trường Đại học Khoa học Xã hội và Nhân văn')
+INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (2, N'GV00000009', N'Bằng Sư Phạm Ngoại Ngữ', '1992-06-12', N'Trường Đại học Sư phạm')
+INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (1, N'GV00000005', N'Bằng Sư Phạm Văn', '1970-01-01', N'Khoa Quốc tế')
+INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (1, N'GV00000007', N'Bằng Sư Phạm Ngoại Ngữ', '1990-01-15', N'Khoa Giáo dục thể chất')
+INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (2, N'GV00000006', N'Bằng Sư Phạm Toán', '1983-01-19', N'Phân hiệu Đại học Quốc gia Thành phố Hồ Chí Minh t')
+INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (2, N'GV00000002', N'Bằng Sư Phạm Toán', '1983-11-02', N'Trường Đại học Y Dược')
+INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (2, N'GV00000004', N'Bằng Sư Phạm Toán', '1972-07-30', N'Trường Đại học Khoa học')
 INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (1, N'GV00000000', N'Bằng Sư Phạm Tin Học', '1981-12-12', N'Trường Đại học Ngoại ngữ')
-INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (4, N'GV00000003', N'Bằng Sư Phạm Công Nghệ Thông Tin', '1970-03-24', N'Trường Đại học Công nghệ')
+INSERT dbo.BangCap(STT, MaGV, TenBang, NgayCap, NoiCap) VALUES (1, N'GV00000003', N'Bằng Sư Phạm Công Nghệ Thông Tin', '1970-03-24', N'Trường Đại học Công nghệ')
 GO
 
 --
