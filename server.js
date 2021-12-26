@@ -199,7 +199,7 @@ app.post("/update-cert",function(req,res){
 				let pool = await sql.connect(config);
 				let result = await pool.request()
 					.input('MaTK', sql.VARCHAR(10),req.session.user.MaTK)
-					.input('TenBang', sql.NVarChar(10), `${req.body.cert_name_more}`)
+					.input('TenBang', sql.NVarChar(50), `${req.body.cert_name_more}`)
 					.input('NgayCapBang', sql.Date, `${req.body.cert_recv_date_more}`)
 					.input('NoiCapBang', sql.NVARCHAR(50), `${req.body.cert_provider_more}`)
 					//.output('MaGV',sql.VARCHAR(10))
@@ -292,7 +292,7 @@ app.get("/show-cert",function(req,res){
 					//.output('output_parameter', sql.VarChar(50))
 					.execute('sp_GV_XemBC')
 				pool.close()
-				res.send(result.recordset[0])
+				res.send(result.recordset)
 				//console.log(result)
 				return
 			} catch (error) {
@@ -317,4 +317,75 @@ app.post("/get-info-course",function(req,res){
 			}
 		})
 
+})
+app.get("/schedule",function(req,res){
+	Promise.resolve('success').then(
+		async function () {
+			try {
+				let pool = await sql.connect(config);
+				let result = await pool.request()
+					.input('MaTK', sql.VARCHAR(10), req.session.user.MaTK)
+					//.output('output_parameter', sql.VarChar(50))
+					.execute('sp_User_XemLH')
+				//console.log(result)
+				pool.close()
+				res.send(result.recordset)
+				return
+			} catch (error) {
+				console.log(error.message);
+				return error.message
+			}
+		})
+})
+app.get("/teach_schedule",function(req,res){
+	Promise.resolve('success').then(
+		async function () {
+			try {
+				let pool = await sql.connect(config);
+				let result = await pool.request()
+					.input('MaTK', sql.VARCHAR(10), req.session.user.MaTK)
+					//.output('output_parameter', sql.VarChar(50))
+					.execute('sp_GV_XemLH')
+				//console.log(result)
+				pool.close()
+				res.send(result.recordset)
+				return
+			} catch (error) {
+				console.log(error.message);
+				return error.message
+			}
+		})
+})
+app.get("/show-profile", (req,res) => {
+	Promise.resolve('success').then(
+		async function () {
+			try {
+				let pool = await sql.connect(config);
+				let result = await pool.query(`select* from NguoiDung where MaTK='${req.session.user.MaTK}'`)
+				res.send(result.recordset)
+				//console.log(result.recordset)
+				return
+			} catch (error) {
+				console.log(error.message);
+				return error.message
+			}
+		})
+})
+app.post("/join-course",function(req,res){
+	Promise.resolve('success').then(
+		async function () {
+			try {
+				let pool = await sql.connect(config);
+				let result = await pool.request()
+					.input('MaTK', sql.VARCHAR(10), req.session.user.MaTK)
+					.input('MaKH', sql.VarChar(10), `${req.body.MaKH}`)
+					.execute('sp_TK_ThamGiaKH')
+				pool.close()
+				res.send(result.recordset)
+				return
+			} catch (error) {
+				console.log(error.message);
+				return error.message
+			}
+		})
 })

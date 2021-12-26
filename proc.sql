@@ -51,6 +51,10 @@ BEGIN TRAN
 					return
 				end
 		declare @NgayTG as date = getdate()
+		if exists (select * from ThamGiaKH where MaTK = @MaTK and MaKH=@MaKH)
+			begin
+				raiserror(N'Không thể tham gia khoá học đã tham gia rồi',16,1)
+			end
 		insert into ThamGiaKH(MaKH, MaTK, NgayThamGia, TinhTrangThanhToan)
 		values(@MaKH, @MaTK, @NgayTG, N'Chưa Thanh Toán')
 	END TRY
@@ -389,94 +393,6 @@ AS
     COMMIT TRANSACTION;
 GO
 
---drop procedure sp_GV_CapNhatBC
---Cập nhật bằng cấp
-create proc sp_GV_CapNhatBC
-	@MaTK varchar(10),
-	@TenBang nvarchar(50),
-	@NgayCapBang date,
-	@NoiCapBang nvarchar(50)
-AS
-BEGIN TRAN
-	BEGIN TRY
-		declare @MaGV  as varchar(10) = (SELECT MaGV FROM GiaoVien WHERE MaTK=@MaTK)
-		declare @STT as int = (select count(*) from BangCap where MaGV = @MaGV) + 1
-		insert into BangCap(MaGV, STT, NgayCap, NoiCap, TenBang) 
-		values(@MaGV, @STT, @NgayCapBang, @NoiCapBang, @TenBang)
-	END TRY
-	BEGIN CATCH
-		SELECT  ERROR_NUMBER() AS ErrorNumber,
-				ERROR_SEVERITY() AS ErrorSeverity, 
-				ERROR_STATE() AS ErrorState,  
-				ERROR_PROCEDURE() AS ErrorProcedure,  
-				ERROR_LINE() AS ErrorLine,  
-				ERROR_MESSAGE() AS ErrorMessage; 
-		IF @@TRANCOUNT > 0  
-			ROLLBACK TRANSACTION
-	END CATCH
-IF @@TRANCOUNT > 0  
-    COMMIT TRANSACTION; 
-
-GO
-
---Cập nhật thông tin user
-CREATE PROC sp_ND_CapNhatTT
-	@MaTK VARCHAR(10),
-	@HoTen NVARCHAR(50), 
-	@NgaySinh DATE, 
-	@Email VARCHAR(50), 
-	@SDT VARCHAR(20)
-AS
-  BEGIN TRAN
-  BEGIN TRY
-	update NguoiDung
-	set HoTen=@HoTen where MaTK=@MaTK
-	update NguoiDung
-	set NgaySinh=@NgaySinh where MaTK=@MaTK
-	update NguoiDung
-	set Email=@Email where MaTK=@MaTK
-	update NguoiDung
-	set SDT=@SDT where MaTK=@MaTK
-	END TRY
-  BEGIN CATCH
-    SELECT
-      ERROR_NUMBER() AS ErrorNumber
-     ,ERROR_SEVERITY() AS ErrorSeverity
-     ,ERROR_STATE() AS ErrorState
-     ,ERROR_PROCEDURE() AS ErrorProcedure
-     ,ERROR_LINE() AS ErrorLine
-     ,ERROR_MESSAGE() AS ErrorMessage;
-    IF @@TRANCOUNT > 0
-      ROLLBACK TRANSACTION
-  END CATCH
-  IF @@TRANCOUNT > 0
-    COMMIT TRANSACTION;
-GO
-
---user xem khóa học
---drop proc sp_User_XemKH
-
-create proc sp_User_XemKH @MaTK varchar(10)
-AS
-  BEGIN TRAN
-  BEGIN TRY
- 
-  select TenKhoaHoc from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH  where @MaTK=MaTK
-  END TRY
-  BEGIN CATCH
-    SELECT
-      ERROR_NUMBER() AS ErrorNumber
-     ,ERROR_SEVERITY() AS ErrorSeverity
-     ,ERROR_STATE() AS ErrorState
-     ,ERROR_PROCEDURE() AS ErrorProcedure
-     ,ERROR_LINE() AS ErrorLine
-     ,ERROR_MESSAGE() AS ErrorMessage;
-    IF @@TRANCOUNT > 0
-      ROLLBACK TRANSACTION
-  END CATCH
-  IF @@TRANCOUNT > 0
-    COMMIT TRANSACTION;
-GO
 
 create proc sp_GV_CapNhatBC
 	@MaTK varchar(10),
@@ -503,8 +419,8 @@ BEGIN TRAN
 	END CATCH
 IF @@TRANCOUNT > 0  
     COMMIT TRANSACTION; 
-
 GO
+
 
 
 CREATE PROC sp_ND_CapNhatTT
@@ -542,7 +458,6 @@ AS
 GO
 
 --drop proc sp_User_XemKH
-
 create proc sp_User_XemKH @MaTK varchar(10)
 AS
   BEGIN TRAN
@@ -571,6 +486,51 @@ AS
   BEGIN TRY
   declare @MaGV  as varchar(10) = (SELECT MaGV FROM GiaoVien WHERE MaTK=@MaTK)
   select * from BangCap where @MaGV=MaGV
+  END TRY
+  BEGIN CATCH
+    SELECT
+      ERROR_NUMBER() AS ErrorNumber
+     ,ERROR_SEVERITY() AS ErrorSeverity
+     ,ERROR_STATE() AS ErrorState
+     ,ERROR_PROCEDURE() AS ErrorProcedure
+     ,ERROR_LINE() AS ErrorLine
+     ,ERROR_MESSAGE() AS ErrorMessage;
+    IF @@TRANCOUNT > 0
+      ROLLBACK TRANSACTION
+  END CATCH
+  IF @@TRANCOUNT > 0
+    COMMIT TRANSACTION;
+GO
+
+--drop proc sp_User_XemLH
+create proc sp_User_XemLH @MaTK varchar(10)
+AS
+  BEGIN TRAN
+  BEGIN TRY
+ 
+  select kh.TenKhoaHoc,kh.MaKH,lh.Ngay,lh.ThoiGian from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH Join LichHoc lh on kh.MaKH=lh.MaKH  where @MaTK=MaTK and datediff(day,getDate(),lh.Ngay)>=0 order by lh.Ngay
+  END TRY
+  BEGIN CATCH
+    SELECT
+      ERROR_NUMBER() AS ErrorNumber
+     ,ERROR_SEVERITY() AS ErrorSeverity
+     ,ERROR_STATE() AS ErrorState
+     ,ERROR_PROCEDURE() AS ErrorProcedure
+     ,ERROR_LINE() AS ErrorLine
+     ,ERROR_MESSAGE() AS ErrorMessage;
+    IF @@TRANCOUNT > 0
+      ROLLBACK TRANSACTION
+  END CATCH
+  IF @@TRANCOUNT > 0
+    COMMIT TRANSACTION;
+GO
+
+create proc sp_GV_XemLH @MaTK varchar(10)
+AS
+  BEGIN TRAN
+  BEGIN TRY
+ 
+  select kh.TenKhoaHoc,kh.MaKH,lh.Ngay,lh.ThoiGian from KhoaHoc kh Join LichHoc lh on kh.MaKH=lh.MaKH Join GiaoVien gv on gv.MaGV=kh.MaGV where @MaTK=MaTK and datediff(day,getDate(),lh.Ngay)>=0 order by lh.Ngay
   END TRY
   BEGIN CATCH
     SELECT

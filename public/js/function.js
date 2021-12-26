@@ -1,5 +1,5 @@
 var ids=["form-insert-course","course-info","find-courses","my-courses","registered-courses-data",
-"form-become-teacher","form-change-info","form-update-cert","schedule","show-cert"]
+"form-become-teacher","form-change-info","form-update-cert","schedule","show-cert","show-profile","teach_schedule"]
 
 function show(id){
     
@@ -200,7 +200,6 @@ function show_KH(MaKH){
     xhtml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhtml.send("MaKH="+MaKH);
 }
-
 function render_courses_info(data){
     return `
     <form class="form"action="">
@@ -208,6 +207,79 @@ function render_courses_info(data){
     <div class="form__element">${data.Lop}</div>
     <div class="form__element">${data.DanhGiaKH}</div>
     <div class="form__element">${data.HocPhi}</div>
-    <button type="button">Tham Gia</button>
+    <button onclick="join_KH('${data.MaKH}')">Tham Gia</button>
     </form>`
+}
+function grid_render_profile(data){
+    var div=`<div class="grid-container">`
+    data.forEach(element => {
+        var date=element.NgaySinh.split('T')[0]
+        div=div+`<div class="grid-item">
+        <div>${element.TenDN}</div>
+        <div>${element.HoTen}</div>
+        <div>${date}</div>
+        <div>${element.Email}</div>
+        <div>${element.SDT}</div>
+        </div>
+        `
+    })
+    div=div+`</div>`
+    return div
+}
+function show_profile() {
+    show('show-profile')
+    //document.getElementById("show-profile").style.display="block"
+    var xhtml = new XMLHttpRequest();
+    xhtml.onload = function() {
+        var data=JSON.parse(this.responseText)
+        console.log(data)
+        document.getElementById("show-profile").innerHTML=grid_render_profile(data)
+        
+    }
+    xhtml.open("GET", "show-profile");
+    xhtml.send();
+}
+function show_schedule(){
+    show('schedule')
+    var xhtml = new XMLHttpRequest();
+    xhtml.onload = function() {
+        var data=JSON.parse(this.responseText)
+        document.getElementById("schedule").innerHTML=grid_render_LH(data)
+    }
+    xhtml.open("GET", "schedule");
+    xhtml.send()
+}
+function show_teach_schedule(){
+    show('teach_schedule')
+    var xhtml = new XMLHttpRequest();
+    xhtml.onload = function() {
+        var data=JSON.parse(this.responseText)
+        document.getElementById("teach_schedule").innerHTML=grid_render_LH(data)
+    }
+    xhtml.open("GET", "teach_schedule");
+    xhtml.send()
+}
+function grid_render_LH(data){
+    var div=`<div class="grid-container">`
+    data.forEach(element => {
+        var date=element.Ngay.split('T')[0]
+        var time=element.ThoiGian.split('T')[1].split('.')[0]
+        div=div+`<div class="grid-item">
+        <div>${element.MaKH}</div>
+        <div>${element.TenKhoaHoc}</div>
+        <div>${date}</div>
+        <div>${time}</div>
+        <button type="button">Tham Gia Buổi Học</button>
+        </div>
+        `
+    })
+    div=div+`</div>`
+    return div
+}
+function join_KH(MaKH){
+    var xhtml = new XMLHttpRequest();
+    xhtml.open("POST", "join-course");
+    xhtml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhtml.send("MaKH="+MaKH);
+    return false;
 }
