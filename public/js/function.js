@@ -261,6 +261,7 @@ function show_teach_schedule(){
     xhtml.send()
 }
 function grid_render_LH(data){
+    console.log(data)
     var div=`<div class="grid-container">`
     data.forEach(element => {
         var date=element.Ngay.split('T')[0]
@@ -270,7 +271,7 @@ function grid_render_LH(data){
         <div>${element.TenKhoaHoc}</div>
         <div>${date}</div>
         <div>${time}</div>
-        <button type="button" onclick="ThamGia('${element.MaKH}')">Tham Gia Buổi Học</button>
+        <button type="button" onclick="ThamGia('${element.MaKH}','${element.Ngay}')">Tham Gia Buổi Học</button>
         </div>
         `
     })
@@ -300,13 +301,13 @@ function grid_render_registered(courses){
     return div
 }
 
-function ThamGia(MaKH){
+function ThamGia(MaKH,Ngay){
     var xhtml = new XMLHttpRequest();
     xhtml.onload = function() {
         console.log("tham gia rồi nhé")
     }
     xhtml.open("POST", "join-course-class");
     xhtml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhtml.send("MaKH="+MaKH);
+    xhtml.send("MaKH="+MaKH+"&Ngay="+Ngay);
     return false;
 }
