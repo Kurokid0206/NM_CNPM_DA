@@ -36,7 +36,6 @@ app.use((req, res, next) => {
     res.locals.user = req.session.user
     next()
 })
-
 // get home page
 app.get("/", function (req, res) {
 	if(!res.locals.user){
@@ -47,8 +46,6 @@ app.get("/", function (req, res) {
         user: res.locals.user
     })}
 })
-
-
 app.post("/find-courses", function (req, res) {
     // tạo promise chắc chắn trả về
     Promise.resolve("success").then(
@@ -70,15 +67,12 @@ app.post("/find-courses", function (req, res) {
         }
     )
 })
-
 app.get("/login", (req, res) => {
     res.render("login")
 })
-
 app.get("/signup", (req, res) => {
     res.render("signup")
 })
-
 app.post("/login", (req, res) => {
     Promise.resolve("success").then(
         async function () {
@@ -175,7 +169,6 @@ app.post("/change-info",function(req,res){
 		}
 	)
 });
-
 app.post("/become-teacher",function(req,res){
 	Promise.resolve('success').then(
 		async function () {
@@ -199,7 +192,6 @@ app.post("/become-teacher",function(req,res){
 		}
 	)
 });
-
 app.post("/update-cert",function(req,res){
 	Promise.resolve('success').then(
 		async function () {
