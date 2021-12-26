@@ -371,17 +371,24 @@ app.get("/show-profile", (req,res) => {
 			}
 		})
 })
-
-
-
-
-
-
-
-
-
-
-
+app.post("/join-course",function(req,res){
+	Promise.resolve('success').then(
+		async function () {
+			try {
+				let pool = await sql.connect(config);
+				let result = await pool.request()
+					.input('MaTK', sql.VARCHAR(10), req.session.user.MaTK)
+					.input('MaKH', sql.VarChar(10), `${req.body.MaKH}`)
+					.execute('sp_TK_ThamGiaKH')
+				pool.close()
+				res.send(result.recordset)
+				return
+			} catch (error) {
+				console.log(error.message);
+				return error.message
+			}
+		})
+})
 app.post("/join-course-class",function(req,res){
 	Promise.resolve('success').then(
 		async function () {
