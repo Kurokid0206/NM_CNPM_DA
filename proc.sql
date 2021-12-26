@@ -390,11 +390,6 @@ AS
 GO
 
 
-
-
-
-
-
 create proc sp_GV_CapNhatBC
 	@MaTK varchar(10),
 	@TenBang nvarchar(50),
@@ -420,7 +415,7 @@ BEGIN TRAN
 	END CATCH
 IF @@TRANCOUNT > 0  
     COMMIT TRANSACTION; 
-
+GO
 
 
 
@@ -459,7 +454,49 @@ AS
 GO
 
 --drop proc sp_User_XemKH
+create proc sp_User_XemKH @MaTK varchar(10)
+AS
+  BEGIN TRAN
+  BEGIN TRY
+ 
+  select TenKhoaHoc from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH  where @MaTK=MaTK
+  END TRY
+  BEGIN CATCH
+    SELECT
+      ERROR_NUMBER() AS ErrorNumber
+     ,ERROR_SEVERITY() AS ErrorSeverity
+     ,ERROR_STATE() AS ErrorState
+     ,ERROR_PROCEDURE() AS ErrorProcedure
+     ,ERROR_LINE() AS ErrorLine
+     ,ERROR_MESSAGE() AS ErrorMessage;
+    IF @@TRANCOUNT > 0
+      ROLLBACK TRANSACTION
+  END CATCH
+  IF @@TRANCOUNT > 0
+    COMMIT TRANSACTION;
+GO
 
+create proc sp_GV_XemBC @MaTK varchar(10)
+AS
+  BEGIN TRAN
+  BEGIN TRY
+  declare @MaGV  as varchar(10) = (SELECT MaGV FROM GiaoVien WHERE MaTK='TK00000013')
+  select * from BangCap where @MaGV=MaGV
+  END TRY
+  BEGIN CATCH
+    SELECT
+      ERROR_NUMBER() AS ErrorNumber
+     ,ERROR_SEVERITY() AS ErrorSeverity
+     ,ERROR_STATE() AS ErrorState
+     ,ERROR_PROCEDURE() AS ErrorProcedure
+     ,ERROR_LINE() AS ErrorLine
+     ,ERROR_MESSAGE() AS ErrorMessage;
+    IF @@TRANCOUNT > 0
+      ROLLBACK TRANSACTION
+  END CATCH
+  IF @@TRANCOUNT > 0
+    COMMIT TRANSACTION;
+GO
 
 
 create proc sp_GV_XemBC @MaTK varchar(10)
@@ -490,7 +527,7 @@ AS
   BEGIN TRAN
   BEGIN TRY
  
-  select kh.MaKH,lh.Ngay,lh.ThoiGian from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH Join LichHoc lh on kh.MaKH=lh.MaKH  where @MaTK=MaTK
+  select kh.TenKhoaHoc,kh.MaKH,lh.Ngay,lh.ThoiGian from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH Join LichHoc lh on kh.MaKH=lh.MaKH  where @MaTK=MaTK and datediff(day,getDate(),lh.Ngay)>=0 order by lh.Ngay
   END TRY
   BEGIN CATCH
     SELECT

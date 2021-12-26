@@ -261,6 +261,7 @@ function grid_render_LH(data){
         var time=element.ThoiGian.split('T')[1].split('.')[0]
         div=div+`<div class="grid-item">
         <div>${element.MaKH}</div>
+        <div>${element.TenKhoaHoc}</div>
         <div>${date}</div>
         <div>${time}</div>
         <button type="button">Tham Gia Buổi Học</button>

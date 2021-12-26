@@ -301,7 +301,7 @@ app.get("/show-cert",function(req,res){
 					.execute('sp_GV_XemBC')
 				pool.close()
 				res.send(result.recordset)
-				//console.log(result)
+				console.log(result)
 				return
 			} catch (error) {
 				console.log(error.message);
