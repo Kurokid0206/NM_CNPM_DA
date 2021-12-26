@@ -421,7 +421,7 @@ BEGIN TRAN
 IF @@TRANCOUNT > 0  
     COMMIT TRANSACTION; 
 
-GO
+
 
 
 CREATE PROC sp_ND_CapNhatTT
@@ -460,12 +460,14 @@ GO
 
 --drop proc sp_User_XemKH
 
-create proc sp_User_XemKH @MaTK varchar(10)
+
+
+create proc sp_GV_XemBC @MaTK varchar(10)
 AS
   BEGIN TRAN
   BEGIN TRY
- 
-  select TenKhoaHoc from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH  where @MaTK=MaTK
+  declare @MaGV  as varchar(10) = (SELECT MaGV FROM GiaoVien WHERE MaTK=@MaTK)
+  select * from BangCap where @MaGV=MaGV
   END TRY
   BEGIN CATCH
     SELECT
@@ -482,12 +484,13 @@ AS
     COMMIT TRANSACTION;
 GO
 
-create proc sp_GV_XemBC @MaTK varchar(10)
+--drop proc sp_User_XemLH
+create proc sp_User_XemLH @MaTK varchar(10)
 AS
   BEGIN TRAN
   BEGIN TRY
-  declare @MaGV  as varchar(10) = (SELECT MaGV FROM GiaoVien WHERE MaTK=@MaTK)
-  select * from BangCap where @MaGV=MaGV
+ 
+  select kh.MaKH,lh.Ngay,lh.ThoiGian from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH Join LichHoc lh on kh.MaKH=lh.MaKH  where @MaTK=MaTK
   END TRY
   BEGIN CATCH
     SELECT

@@ -326,6 +326,25 @@ app.post("/get-info-course",function(req,res){
 		})
 
 })
+app.get("/schedule",function(req,res){
+	Promise.resolve('success').then(
+		async function () {
+			try {
+				let pool = await sql.connect(config);
+				let result = await pool.request()
+					.input('MaTK', sql.VARCHAR(10), req.session.user.MaTK)
+					//.output('output_parameter', sql.VarChar(50))
+					.execute('sp_User_XemLH')
+				pool.close()
+				res.send(result.recordset)
+				console.log(result)
+				return
+			} catch (error) {
+				console.log(error.message);
+				return error.message
+			}
+		})
+})
 
 app.get("/show-profile", (req,res) => {
 	Promise.resolve('success').then(

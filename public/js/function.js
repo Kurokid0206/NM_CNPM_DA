@@ -242,3 +242,31 @@ function show_profile() {
     xhtml.open("GET", "show-profile");
     xhtml.send();
 }
+
+function show_schedule(){
+    show('schedule')
+    var xhtml = new XMLHttpRequest();
+    xhtml.onload = function() {
+        var data=JSON.parse(this.responseText)
+        document.getElementById("schedule").innerHTML=grid_render_LH(data)
+    }
+    xhtml.open("GET", "schedule");
+    xhtml.send()
+}
+
+function grid_render_LH(data){
+    var div=`<div class="grid-container">`
+    data.forEach(element => {
+        var date=element.Ngay.split('T')[0]
+        var time=element.ThoiGian.split('T')[1].split('.')[0]
+        div=div+`<div class="grid-item">
+        <div>${element.MaKH}</div>
+        <div>${date}</div>
+        <div>${time}</div>
+        <button type="button">Tham Gia Buổi Học</button>
+        </div>
+        `
+    })
+    div=div+`</div>`
+    return div
+}
