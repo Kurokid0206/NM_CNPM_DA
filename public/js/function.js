@@ -115,7 +115,8 @@ function show_registered_courses(){
     var xhtml = new XMLHttpRequest();
     xhtml.onload = function() {
         var data=JSON.parse(this.responseText)
-        document.getElementById("registered-courses-data").innerHTML=grid_render(data) 
+        document.getElementById("registered-courses-data").innerHTML=
+        grid_render_registered(data) 
     }
 
     xhtml.open("GET", "registered-courses");
@@ -207,7 +208,7 @@ function render_courses_info(data){
     <div class="form__element">${data.Lop}</div>
     <div class="form__element">${data.DanhGiaKH}</div>
     <div class="form__element">${data.HocPhi}</div>
-    <button onclick="join_KH('${data.MaKH}')">Tham Gia</button>
+    <button type="button" onclick="join_KH('${data.MaKH}')">Tham Gia</button>
     </form>`
 }
 function grid_render_profile(data){
@@ -269,7 +270,7 @@ function grid_render_LH(data){
         <div>${element.TenKhoaHoc}</div>
         <div>${date}</div>
         <div>${time}</div>
-        <button type="button">Tham Gia Buổi Học</button>
+        <button type="button" onclick="ThamGia('${element.MaKH}')">Tham Gia Buổi Học</button>
         </div>
         `
     })
@@ -278,7 +279,33 @@ function grid_render_LH(data){
 }
 function join_KH(MaKH){
     var xhtml = new XMLHttpRequest();
+    xhtml.onload = function() {
+        show_registered_courses();
+    }
     xhtml.open("POST", "join-course");
+    xhtml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhtml.send("MaKH="+MaKH);
+    return false;
+}
+function grid_render_registered(courses){
+    console.log(courses)
+    var div=`<div class="grid-container">`
+    courses.forEach(course=>{
+        div=div+`<div class="grid-item">
+        <div>${course.TenKhoaHoc}</div>
+        </div>
+        `
+    })
+    div=div+`</div>`
+    return div
+}
+
+function ThamGia(MaKH){
+    var xhtml = new XMLHttpRequest();
+    xhtml.onload = function() {
+        console.log("tham gia rồi nhé")
+    }
+    xhtml.open("POST", "join-course-class");
     xhtml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhtml.send("MaKH="+MaKH);
     return false;

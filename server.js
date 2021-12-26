@@ -371,15 +371,29 @@ app.get("/show-profile", (req,res) => {
 			}
 		})
 })
-app.post("/join-course",function(req,res){
+
+
+
+
+
+
+
+
+
+
+
+app.post("/join-course-class",function(req,res){
 	Promise.resolve('success').then(
 		async function () {
 			try {
 				let pool = await sql.connect(config);
-				let result = await pool.request()
-					.input('MaTK', sql.VARCHAR(10), req.session.user.MaTK)
-					.input('MaKH', sql.VarChar(10), `${req.body.MaKH}`)
-					.execute('sp_TK_ThamGiaKH')
+				let result = await pool.request().query(
+					`declare declare @stt int
+					set @stt = (select count(*) 
+					from ThamGiaBuoiHoc group by MaKH having MaKH='${req.body.MaKH}')+1
+					insert into THamGiaBuoiHoc 
+					values(${req.body.MaKH},@stt,${req.session.user.MaTK},0)`
+				)
 				pool.close()
 				res.send(result.recordset)
 				return
