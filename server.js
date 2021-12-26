@@ -388,11 +388,13 @@ app.post("/join-course-class",function(req,res){
 			try {
 				let pool = await sql.connect(config);
 				let result = await pool.request().query(
-					`declare declare @stt int
+					`declare @stt int
 					set @stt = (select count(*) 
-					from ThamGiaBuoiHoc group by MaKH having MaKH='${req.body.MaKH}')+1
+					from ThamGiaBuoiHoc group by MaKH,MaTK having MaKH='${req.body.MaKH}')+1
+					if (@stt is null)
+						set @stt=1
 					insert into THamGiaBuoiHoc 
-					values(${req.body.MaKH},@stt,${req.session.user.MaTK},0)`
+					values('${req.body.MaKH}',@stt,'${req.session.user.MaTK}',0)`
 				)
 				pool.close()
 				res.send(result.recordset)
