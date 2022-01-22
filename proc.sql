@@ -108,11 +108,13 @@ proc sp_TK_CapNhatBC
 AS
 BEGIN TRAN
 	BEGIN TRY
+		declare @MaGV as varchar(10)
 		if(not exists (select * from GiaoVien where MaTK = @MaTK))
 		begin
-			declare @MaGV as varchar(10) = dbo.f_Auto_MaGV()
+			set @MaGV = dbo.f_Auto_MaGV()
 			insert into GiaoVien(MaGV, MaTK) values (@MaGV, @MaTK)
 		end	
+		else set @MaGV = (select MaGV from GiaoVien where MaTK = @MaTK)
 		declare @STT as int = (select count(*) from BangCap where MaGV = @MaGV) + 1
 		insert into BangCap(MaGV, STT, NgayCap, NoiCap, TenBang) 
 		values(@MaGV, @STT, @NgayCapBang, @NoiCapBang, @TenBang)
