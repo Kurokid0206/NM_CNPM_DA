@@ -97,8 +97,10 @@ IF @@TRANCOUNT > 0
 
 GO
 
---drop procedure sp_TK_DangKyGV
-create proc sp_TK_DangKyGV
+--drop procedure sp_TK_CapNhatBC
+create 
+--alter
+proc sp_TK_CapNhatBC
 	@MaTK varchar(10),
 	@TenBang nvarchar(50),
 	@NgayCapBang date,
@@ -106,16 +108,14 @@ create proc sp_TK_DangKyGV
 AS
 BEGIN TRAN
 	BEGIN TRY
-
-		if(exists (select * from GiaoVien where MaTK = @MaTK))
-			begin
-				raiserror(N'Bạn đã là giáo viên',16,1)
-			end		
+		if(not exists (select * from GiaoVien where MaTK = @MaTK))
+		begin
 			declare @MaGV as varchar(10) = dbo.f_Auto_MaGV()
 			insert into GiaoVien(MaGV, MaTK) values (@MaGV, @MaTK)
-			declare @STT as int = (select count(*) from BangCap where MaGV = @MaGV) + 1
-			insert into BangCap(MaGV, STT, NgayCap, NoiCap, TenBang) 
-			values(@MaGV, @STT, @NgayCapBang, @NoiCapBang, @TenBang)
+		end	
+		declare @STT as int = (select count(*) from BangCap where MaGV = @MaGV) + 1
+		insert into BangCap(MaGV, STT, NgayCap, NoiCap, TenBang) 
+		values(@MaGV, @STT, @NgayCapBang, @NoiCapBang, @TenBang)
 	END TRY
 	BEGIN CATCH
 		SELECT  ERROR_NUMBER() AS ErrorNumber,
@@ -388,36 +388,6 @@ AS
   IF @@TRANCOUNT > 0
     COMMIT TRANSACTION;
 GO
-
-
-create proc sp_GV_CapNhatBC
-	@MaTK varchar(10),
-	@TenBang nvarchar(50),
-	@NgayCapBang date,
-	@NoiCapBang nvarchar(50)
-AS
-BEGIN TRAN
-	BEGIN TRY
-		declare @MaGV  as varchar(10) = (SELECT MaGV FROM GiaoVien WHERE MaTK=@MaTK)
-		declare @STT as int = (select count(*) from BangCap where MaGV = @MaGV) + 1
-		insert into BangCap(MaGV, STT, NgayCap, NoiCap, TenBang) 
-		values(@MaGV, @STT, @NgayCapBang, @NoiCapBang, @TenBang)
-	END TRY
-	BEGIN CATCH
-		SELECT  ERROR_NUMBER() AS ErrorNumber,
-				ERROR_SEVERITY() AS ErrorSeverity, 
-				ERROR_STATE() AS ErrorState,  
-				ERROR_PROCEDURE() AS ErrorProcedure,  
-				ERROR_LINE() AS ErrorLine,  
-				ERROR_MESSAGE() AS ErrorMessage; 
-		IF @@TRANCOUNT > 0  
-			ROLLBACK TRANSACTION
-	END CATCH
-IF @@TRANCOUNT > 0  
-    COMMIT TRANSACTION; 
-GO
-
-
 
 CREATE PROC sp_ND_CapNhatTT
 	@MaTK VARCHAR(10),
