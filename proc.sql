@@ -463,7 +463,7 @@ AS
   BEGIN TRAN
   BEGIN TRY
  
-  select TenKhoaHoc from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH  where @MaTK=MaTK
+  select kh.* from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH  where @MaTK=MaTK
   END TRY
   BEGIN CATCH
     SELECT
