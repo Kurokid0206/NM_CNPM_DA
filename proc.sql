@@ -97,8 +97,10 @@ IF @@TRANCOUNT > 0
 
 GO
 
---drop procedure sp_TK_DangKyGV
-create proc sp_TK_DangKyGV
+--drop procedure sp_TK_CapNhatBC
+create 
+--alter
+proc sp_TK_CapNhatBC
 	@MaTK varchar(10),
 	@TenBang nvarchar(50),
 	@NgayCapBang date,
@@ -106,16 +108,16 @@ create proc sp_TK_DangKyGV
 AS
 BEGIN TRAN
 	BEGIN TRY
-
-		if(exists (select * from GiaoVien where MaTK = @MaTK))
-			begin
-				raiserror(N'Bạn đã là giáo viên',16,1)
-			end		
-			declare @MaGV as varchar(10) = dbo.f_Auto_MaGV()
+		declare @MaGV as varchar(10)
+		if(not exists (select * from GiaoVien where MaTK = @MaTK))
+		begin
+			set @MaGV = dbo.f_Auto_MaGV()
 			insert into GiaoVien(MaGV, MaTK) values (@MaGV, @MaTK)
-			declare @STT as int = (select count(*) from BangCap where MaGV = @MaGV) + 1
-			insert into BangCap(MaGV, STT, NgayCap, NoiCap, TenBang) 
-			values(@MaGV, @STT, @NgayCapBang, @NoiCapBang, @TenBang)
+		end	
+		else set @MaGV = (select MaGV from GiaoVien where MaTK = @MaTK)
+		declare @STT as int = (select count(*) from BangCap where MaGV = @MaGV) + 1
+		insert into BangCap(MaGV, STT, NgayCap, NoiCap, TenBang) 
+		values(@MaGV, @STT, @NgayCapBang, @NoiCapBang, @TenBang)
 	END TRY
 	BEGIN CATCH
 		SELECT  ERROR_NUMBER() AS ErrorNumber,
@@ -389,36 +391,6 @@ AS
     COMMIT TRANSACTION;
 GO
 
-
-create proc sp_GV_CapNhatBC
-	@MaTK varchar(10),
-	@TenBang nvarchar(50),
-	@NgayCapBang date,
-	@NoiCapBang nvarchar(50)
-AS
-BEGIN TRAN
-	BEGIN TRY
-		declare @MaGV  as varchar(10) = (SELECT MaGV FROM GiaoVien WHERE MaTK=@MaTK)
-		declare @STT as int = (select count(*) from BangCap where MaGV = @MaGV) + 1
-		insert into BangCap(MaGV, STT, NgayCap, NoiCap, TenBang) 
-		values(@MaGV, @STT, @NgayCapBang, @NoiCapBang, @TenBang)
-	END TRY
-	BEGIN CATCH
-		SELECT  ERROR_NUMBER() AS ErrorNumber,
-				ERROR_SEVERITY() AS ErrorSeverity, 
-				ERROR_STATE() AS ErrorState,  
-				ERROR_PROCEDURE() AS ErrorProcedure,  
-				ERROR_LINE() AS ErrorLine,  
-				ERROR_MESSAGE() AS ErrorMessage; 
-		IF @@TRANCOUNT > 0  
-			ROLLBACK TRANSACTION
-	END CATCH
-IF @@TRANCOUNT > 0  
-    COMMIT TRANSACTION; 
-GO
-
-
-
 CREATE PROC sp_ND_CapNhatTT
 	@MaTK VARCHAR(10),
 	@HoTen NVARCHAR(50), 
@@ -499,15 +471,16 @@ AS
 GO
 
 --drop proc sp_User_XemLH
-create proc sp_User_XemLH @MaTK varchar(10),@MaKH varchar(10)
+create 
+--alter
+proc sp_User_XemLH @MaTK varchar(10), @MaKH varchar(10)
 AS
 BEGIN TRAN
 	BEGIN TRY
 	  select kh.TenKhoaHoc,kh.MaKH,lh.Ngay,lh.ThoiGian 
 	  from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH Join LichHoc lh on kh.MaKH=lh.MaKH  
-	  where MaTK = @MaTK and datediff(day,getDate(),lh.Ngay) >= 0
-	  and not exists (select * from ThamGiaBuoiHoc where MaTK = @MaTK)
-	  order by lh.Ngay
+	  where MaTK = @MaTK and lh.MaKH = @MaKH
+	  and not exists (select * from ThamGiaBuoiHoc tgbh where MaTK = @MaTK and lh.MaKH = @MaKH and lh.STT = tgbh.STT)
 	END TRY
 	BEGIN CATCH
 		SELECT
@@ -520,6 +493,8 @@ BEGIN TRAN
 		IF @@TRANCOUNT > 0
 		  ROLLBACK TRANSACTION
 	END CATCH
+	IF @@TRANCOUNT > 0
+		COMMIT TRANSACTION
 GO
 
 create proc sp_GV_XemLH @MaTK varchar(10)
