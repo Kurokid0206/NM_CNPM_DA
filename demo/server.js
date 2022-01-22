@@ -38,11 +38,6 @@ app.use((req, res, next) => {
 })
 // get home page
 app.get("/", (req, res) => {
-	if(res.locals.user){
-		console.log(req.session.user)
-	}
-	
-
 	res.render("index",{data: res.locals.user})
 })
 app.post("/find-courses", (req, res) => {
@@ -79,7 +74,7 @@ app.post("/login", (req, res) => {
                     .input("mk", sql.VarChar(50), req.body.password)
                     .output("MaTK", sql.VarChar(10))
                     .execute("sp_signIn")
-					console.log(result)
+					//console.log(result)
 				if(result.output.MaTK!=null){
 					
 					req.session.user = result.recordset[0]
