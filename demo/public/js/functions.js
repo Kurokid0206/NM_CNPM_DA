@@ -261,7 +261,7 @@ function insert_course(){
         course_class_num.value=0
         course_min_student.value=0
         fee.value=0
-        show('my-course-section')
+        show_my_courses('my-course-section')
     }
 
     xhtml.open("POST", "insert-course");
