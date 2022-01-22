@@ -111,7 +111,7 @@ AS
 BEGIN TRAN
 	BEGIN TRY
 
-		if(exists (select * from GiaoVien where MaTK=@MaTK))
+		if(exists (select * from GiaoVien where MaTK = @MaTK))
 			begin
 				raiserror(N'Bạn đã là giáo viên',16,1)
 			end		
@@ -375,8 +375,8 @@ create proc sp_GV_XemKH @MaTK varchar(10)
 AS
   BEGIN TRAN
   BEGIN TRY
-  declare @MaGV  as varchar(10) = (SELECT MaGV FROM GiaoVien WHERE MaTK=@MaTK)
-  select * from KhoaHoc where @MaGV=MaGV
+  declare @MaGV  as varchar(10) = (SELECT MaGV FROM GiaoVien WHERE MaTK = @MaTK)
+  select * from KhoaHoc where MaGV = @MaGV
   END TRY
   BEGIN CATCH
     SELECT
