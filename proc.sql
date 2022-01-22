@@ -503,12 +503,14 @@ AS
 GO
 
 --drop proc sp_User_XemLH
-create proc sp_User_XemLH @MaTK varchar(10)
+create proc sp_User_XemLH @MaTK varchar(10),@MaKH varchar(10)
 AS
   BEGIN TRAN
   BEGIN TRY
  
-  select kh.TenKhoaHoc,kh.MaKH,lh.Ngay,lh.ThoiGian from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH Join LichHoc lh on kh.MaKH=lh.MaKH  where @MaTK=MaTK and datediff(day,getDate(),lh.Ngay)>=0 order by lh.Ngay
+  select kh.TenKhoaHoc,kh.MaKH,lh.Ngay,lh.ThoiGian 
+  from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH Join LichHoc lh on kh.MaKH=lh.MaKH  
+  where @MaTK=MaTK and @MaKH=kh.MaKH and datediff(day,getDate(),lh.Ngay)>=0 order by lh.Ngay
   END TRY
   BEGIN CATCH
     SELECT
