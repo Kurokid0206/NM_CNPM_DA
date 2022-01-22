@@ -208,19 +208,15 @@ GO
 --Đăng nhập
 CREATE PROC sp_signIn @tendn VARCHAR(50), @mk VARCHAR(50), @matk VARCHAR(10) OUTPUT
 AS
-  BEGIN TRAN
-  BEGIN TRY
-
-    SELECT
-      @matk = (SELECT
-          MaTK
-        FROM nguoidung
-        WHERE tendn = @tendn
-        AND matkhaudn = @mk)
-
-    IF @matk IS NULL
-      RAISERROR (N'Sai tài khoản hoặc mật khẩu', 16, 1)
-
+BEGIN TRAN
+	BEGIN TRY
+		SELECT @matk = (SELECT MaTK
+			FROM nguoidung
+			WHERE tendn = @tendn
+			AND matkhaudn = @mk)
+		IF @matk IS NULL
+		  RAISERROR (N'Sai tài khoản hoặc mật khẩu', 16, 1)
+		select ND.MaTK, MaGV from NguoiDung ND left join GiaoVien GV on ND.MaTK = GV.MaTK where ND.MaTK = @matk
   END TRY
   BEGIN CATCH
     SELECT
