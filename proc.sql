@@ -37,7 +37,9 @@ IF @@TRANCOUNT > 0
 
 GO
 
-CREATE PROC sp_TK_ThamGiaKH 
+CREATE
+--ALTER
+PROC sp_TK_ThamGiaKH 
 	@MaTK varchar(10),
 	@MaKH varchar(10) 
 AS
@@ -46,17 +48,11 @@ BEGIN TRAN
 		declare @MaGV as varchar(10) = (select MaGV from KhoaHoc where MaKH = @MaKH)
 		if exists (select * from GiaoVien where MaTK = @MaTK)
 			if (select MaGV from GiaoVien where MaTK = @MaTK) = @MaGV
-				begin
-					print N'Không thể tự tham gia khóa học của mình'
-					return
-				end
-		declare @NgayTG as date = getdate()
-		if exists (select * from ThamGiaKH where MaTK = @MaTK and MaKH=@MaKH)
-			begin
-				raiserror(N'Không thể tham gia khoá học đã tham gia rồi',16,1)
-			end
+				raiserror(N'Không thể tự tham gia khóa học của mình',16,1)
+		if exists (select * from ThamGiaKH where MaTK = @MaTK and MaKH = @MaKH)
+			raiserror(N'Không thể tham gia khoá học đã tham gia rồi',16,1)
 		insert into ThamGiaKH(MaKH, MaTK, NgayThamGia, TinhTrangThanhToan)
-		values(@MaKH, @MaTK, @NgayTG, N'Chưa Thanh Toán')
+		values(@MaKH, @MaTK, getdate(), N'Chưa Thanh Toán')
 	END TRY
 	BEGIN CATCH
 		SELECT  ERROR_NUMBER() AS ErrorNumber,
@@ -505,24 +501,27 @@ GO
 --drop proc sp_User_XemLH
 create proc sp_User_XemLH @MaTK varchar(10)
 AS
-  BEGIN TRAN
-  BEGIN TRY
- 
-  select kh.TenKhoaHoc,kh.MaKH,lh.Ngay,lh.ThoiGian from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH Join LichHoc lh on kh.MaKH=lh.MaKH  where @MaTK=MaTK and datediff(day,getDate(),lh.Ngay)>=0 order by lh.Ngay
-  END TRY
-  BEGIN CATCH
-    SELECT
-      ERROR_NUMBER() AS ErrorNumber
-     ,ERROR_SEVERITY() AS ErrorSeverity
-     ,ERROR_STATE() AS ErrorState
-     ,ERROR_PROCEDURE() AS ErrorProcedure
-     ,ERROR_LINE() AS ErrorLine
-     ,ERROR_MESSAGE() AS ErrorMessage;
-    IF @@TRANCOUNT > 0
-      ROLLBACK TRANSACTION
-  END CATCH
-  IF @@TRANCOUNT > 0
-    COMMIT TRANSACTION;
+BEGIN TRAN
+	BEGIN TRY
+	  select kh.TenKhoaHoc,kh.MaKH,lh.Ngay,lh.ThoiGian 
+	  from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH Join LichHoc lh on kh.MaKH=lh.MaKH  
+	  where MaTK = @MaTK and datediff(day,getDate(),lh.Ngay) >= 0
+	  and not exists (select * from ThamGiaBuoiHoc where MaTK = @MaTK)
+	  order by lh.Ngay
+	END TRY
+	BEGIN CATCH
+		SELECT
+		  ERROR_NUMBER() AS ErrorNumber
+		 ,ERROR_SEVERITY() AS ErrorSeverity
+		 ,ERROR_STATE() AS ErrorState
+		 ,ERROR_PROCEDURE() AS ErrorProcedure
+		 ,ERROR_LINE() AS ErrorLine
+		 ,ERROR_MESSAGE() AS ErrorMessage;
+		IF @@TRANCOUNT > 0
+		  ROLLBACK TRANSACTION
+	END CATCH
+IF @@TRANCOUNT > 0
+	COMMIT TRANSACTION;
 GO
 
 create proc sp_GV_XemLH @MaTK varchar(10)
