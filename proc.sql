@@ -459,7 +459,7 @@ AS
   BEGIN TRAN
   BEGIN TRY
  
-  select TenKhoaHoc from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH  where @MaTK=MaTK
+  select kh.* from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH  where @MaTK=MaTK
   END TRY
   BEGIN CATCH
     SELECT
@@ -499,7 +499,7 @@ AS
 GO
 
 --drop proc sp_User_XemLH
-create proc sp_User_XemLH @MaTK varchar(10)
+create proc sp_User_XemLH @MaTK varchar(10),@MaKH varchar(10)
 AS
 BEGIN TRAN
 	BEGIN TRY
@@ -520,8 +520,6 @@ BEGIN TRAN
 		IF @@TRANCOUNT > 0
 		  ROLLBACK TRANSACTION
 	END CATCH
-IF @@TRANCOUNT > 0
-	COMMIT TRANSACTION;
 GO
 
 create proc sp_GV_XemLH @MaTK varchar(10)
