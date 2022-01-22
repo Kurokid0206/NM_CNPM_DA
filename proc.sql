@@ -1,7 +1,9 @@
 USE qlKH
 GO
 
-CREATE PROC sp_GV_TaoKH 
+CREATE
+--ALTER
+PROC sp_GV_TaoKH 
 	@MaTK varchar(10),
 	@TenKH nvarchar(50), 
 	@Lop int, 
@@ -69,7 +71,9 @@ IF @@TRANCOUNT > 0
 
 GO
 
-CREATE PROC sp_TK_ThanhToan
+CREATE
+--ALTER
+PROC sp_TK_ThanhToan
 	@MaTK varchar(10),
 	@MaKH varchar(10),
 	@TinhTrang bit
@@ -97,7 +101,6 @@ IF @@TRANCOUNT > 0
 
 GO
 
---drop procedure sp_TK_CapNhatBC
 create 
 --alter
 proc sp_TK_CapNhatBC
@@ -134,7 +137,9 @@ IF @@TRANCOUNT > 0
 
 GO
 
-CREATE PROC sp_GV_HuyKH
+CREATE
+--ALTER
+PROC sp_GV_HuyKH
 	@MaGV varchar(10),
 	@MaKH varchar(10)
 AS
@@ -168,7 +173,9 @@ IF @@TRANCOUNT > 0
 
 GO
 	--Tạo tài khoản
-CREATE PROC sp_signUp
+CREATE 
+--ALTER
+PROC sp_signUp
 	@tendn VARCHAR(50), 
 	@mk VARCHAR(50),
 	@hoten NVARCHAR(50), 
@@ -206,7 +213,9 @@ GO
 
 
 --Đăng nhập
-CREATE PROC sp_signIn @tendn VARCHAR(50), @mk VARCHAR(50), @matk VARCHAR(10) OUTPUT
+CREATE 
+--ALTER
+PROC sp_signIn @tendn VARCHAR(50), @mk VARCHAR(50), @matk VARCHAR(10) OUTPUT
 AS
 BEGIN TRAN
 	BEGIN TRY
@@ -235,7 +244,9 @@ GO
 
 
 --Lên lịch học
-CREATE PROC sp_GV_LenLich @MaKH varchar(10), @Ngay date, @ThoiGian time, @MoTa nvarchar(100)
+CREATE 
+--ALTER
+PROC sp_GV_LenLich @MaKH varchar(10), @Ngay date, @ThoiGian time, @MoTa nvarchar(100)
 AS
   BEGIN TRAN
   BEGIN TRY
@@ -259,7 +270,9 @@ AS
 GO
 
 --Sửa lịch học
-CREATE PROC sp_GV_SuaLich @MaKH varchar(10), @STT int, @Ngay date, @ThoiGian time
+CREATE
+--ALTER
+PROC sp_GV_SuaLich @MaKH varchar(10), @STT int, @Ngay date, @ThoiGian time
 AS
   BEGIN TRAN
   BEGIN TRY
@@ -290,7 +303,9 @@ AS
 GO
 
 --Tìm khóa học - 19120674
-CREATE PROC sp_findCourses @keyword NVARCHAR(50)
+CREATE 
+--ALTER
+PROC sp_findCourses @keyword NVARCHAR(50)
 AS
   BEGIN TRAN
   BEGIN TRY
@@ -315,7 +330,9 @@ AS
 GO
 
 --tham gia buổi học
-CREATE PROC sp_joinLesson @matk VARCHAR(10), @makh VARCHAR(10), @stt INT
+CREATE 
+--ALTER
+PROC sp_joinLesson @matk VARCHAR(10), @makh VARCHAR(10), @stt INT
 AS
   BEGIN TRAN
   BEGIN TRY
@@ -339,7 +356,9 @@ AS
 GO
 
 --Đánh giá buổi học - 19120674
-CREATE PROC sp_rateLesson @matk VARCHAR(10), @makh VARCHAR(10), @stt INT, @rate FLOAT
+CREATE
+--ALTER
+PROC sp_rateLesson @matk VARCHAR(10), @makh VARCHAR(10), @stt INT, @rate FLOAT
 AS
   BEGIN TRAN
   BEGIN TRY
@@ -365,7 +384,9 @@ AS
     COMMIT TRANSACTION;
 GO
 
-create proc sp_GV_XemKH @MaTK varchar(10)
+create 
+--alter
+proc sp_GV_XemKH @MaTK varchar(10)
 AS
   BEGIN TRAN
   BEGIN TRY
@@ -387,69 +408,74 @@ AS
     COMMIT TRANSACTION;
 GO
 
-CREATE PROC sp_ND_CapNhatTT
+CREATE 
+--ALTER
+PROC sp_ND_CapNhatTT
 	@MaTK VARCHAR(10),
 	@HoTen NVARCHAR(50), 
 	@NgaySinh DATE, 
 	@Email VARCHAR(50), 
 	@SDT VARCHAR(20)
 AS
-  BEGIN TRAN
-  BEGIN TRY
-	update NguoiDung
-	set HoTen=@HoTen where MaTK=@MaTK
-	update NguoiDung
-	set NgaySinh=@NgaySinh where MaTK=@MaTK
-	update NguoiDung
-	set Email=@Email where MaTK=@MaTK
-	update NguoiDung
-	set SDT=@SDT where MaTK=@MaTK
+BEGIN TRAN
+	BEGIN TRY
+		update NguoiDung
+		set HoTen=@HoTen where MaTK=@MaTK
+		update NguoiDung
+		set NgaySinh=@NgaySinh where MaTK=@MaTK
+		update NguoiDung
+		set Email=@Email where MaTK=@MaTK
+		update NguoiDung
+		set SDT=@SDT where MaTK=@MaTK
 	END TRY
-  BEGIN CATCH
-    SELECT
-      ERROR_NUMBER() AS ErrorNumber
-     ,ERROR_SEVERITY() AS ErrorSeverity
-     ,ERROR_STATE() AS ErrorState
-     ,ERROR_PROCEDURE() AS ErrorProcedure
-     ,ERROR_LINE() AS ErrorLine
-     ,ERROR_MESSAGE() AS ErrorMessage;
-    IF @@TRANCOUNT > 0
+	BEGIN CATCH
+	SELECT
+		  ERROR_NUMBER() AS ErrorNumber
+		 ,ERROR_SEVERITY() AS ErrorSeverity
+		 ,ERROR_STATE() AS ErrorState
+		 ,ERROR_PROCEDURE() AS ErrorProcedure
+		 ,ERROR_LINE() AS ErrorLine
+		 ,ERROR_MESSAGE() AS ErrorMessage;
+		IF @@TRANCOUNT > 0
       ROLLBACK TRANSACTION
   END CATCH
-  IF @@TRANCOUNT > 0
-    COMMIT TRANSACTION;
+IF @@TRANCOUNT > 0
+   COMMIT TRANSACTION;
 
 GO
 
 --drop proc sp_User_XemKH
-create proc sp_User_XemKH @MaTK varchar(10)
+create 
+--alter
+proc sp_User_XemKH @MaTK varchar(10)
 AS
-  BEGIN TRAN
-  BEGIN TRY
- 
-  select kh.* from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH  where @MaTK=MaTK
-  END TRY
-  BEGIN CATCH
-    SELECT
-      ERROR_NUMBER() AS ErrorNumber
-     ,ERROR_SEVERITY() AS ErrorSeverity
-     ,ERROR_STATE() AS ErrorState
-     ,ERROR_PROCEDURE() AS ErrorProcedure
-     ,ERROR_LINE() AS ErrorLine
-     ,ERROR_MESSAGE() AS ErrorMessage;
-    IF @@TRANCOUNT > 0
-      ROLLBACK TRANSACTION
-  END CATCH
-  IF @@TRANCOUNT > 0
-    COMMIT TRANSACTION;
+BEGIN TRAN
+	BEGIN TRY
+	  select kh.* from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH  where @MaTK=MaTK
+	END TRY
+	BEGIN CATCH
+		SELECT
+			  ERROR_NUMBER() AS ErrorNumber
+			 ,ERROR_SEVERITY() AS ErrorSeverity
+			 ,ERROR_STATE() AS ErrorState
+			 ,ERROR_PROCEDURE() AS ErrorProcedure
+			 ,ERROR_LINE() AS ErrorLine
+			 ,ERROR_MESSAGE() AS ErrorMessage;
+	IF @@TRANCOUNT > 0
+		ROLLBACK TRANSACTION
+	END CATCH
+IF @@TRANCOUNT > 0
+	COMMIT TRANSACTION;
 GO
 
-create proc sp_GV_XemBC @MaTK varchar(10)
+create 
+--alter
+proc sp_GV_XemBC @MaTK varchar(10)
 AS
-  BEGIN TRAN
+BEGIN TRAN
   BEGIN TRY
-  declare @MaGV  as varchar(10) = (SELECT MaGV FROM GiaoVien WHERE MaTK=@MaTK)
-  select * from BangCap where @MaGV=MaGV
+	  declare @MaGV  as varchar(10) = (SELECT MaGV FROM GiaoVien WHERE MaTK=@MaTK)
+	  select * from BangCap where @MaGV=MaGV
   END TRY
   BEGIN CATCH
     SELECT
@@ -462,7 +488,7 @@ AS
     IF @@TRANCOUNT > 0
       ROLLBACK TRANSACTION
   END CATCH
-  IF @@TRANCOUNT > 0
+IF @@TRANCOUNT > 0
     COMMIT TRANSACTION;
 GO
 
@@ -493,12 +519,15 @@ BEGIN TRAN
 		COMMIT TRANSACTION
 GO
 
-create proc sp_GV_XemLH @MaTK varchar(10)
+create 
+--alter
+proc sp_GV_XemLH @MaTK varchar(10)
 AS
-  BEGIN TRAN
+BEGIN TRAN
   BEGIN TRY
- 
-  select kh.TenKhoaHoc,kh.MaKH,lh.Ngay,lh.ThoiGian from KhoaHoc kh Join LichHoc lh on kh.MaKH=lh.MaKH Join GiaoVien gv on gv.MaGV=kh.MaGV where @MaTK=MaTK and datediff(day,getDate(),lh.Ngay)>=0 order by lh.Ngay
+	select kh.TenKhoaHoc,kh.MaKH,lh.Ngay,lh.ThoiGian 
+	from KhoaHoc kh Join LichHoc lh on kh.MaKH=lh.MaKH Join GiaoVien gv on gv.MaGV=kh.MaGV
+	where @MaTK=MaTK and datediff(day,getDate(),lh.Ngay) >=0 order by lh.Ngay
   END TRY
   BEGIN CATCH
     SELECT
@@ -511,6 +540,6 @@ AS
     IF @@TRANCOUNT > 0
       ROLLBACK TRANSACTION
   END CATCH
-  IF @@TRANCOUNT > 0
+IF @@TRANCOUNT > 0
     COMMIT TRANSACTION;
 GO
