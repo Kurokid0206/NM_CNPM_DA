@@ -366,7 +366,7 @@
 									</div>
 								</div>
 								<div class="search-box">
-									<form>
+									<form onsubmit="return find_courses();">
 										<input type="text" name="search" placeholder="Type here..." />
 										<button type="button" onclick="find_courses();"><i
 												class="zmdi zmdi-search"></i></button>
@@ -748,7 +748,7 @@
 						<div class="enter-box" id="order_div">
 							<h3 class="mb-35">Thông tin cá nhân</h3>
 
-							<form class="custom-input" id="order-form" onsubmit="return insert_order();">
+							<form  class="custom-input" id="order-form">
 
 								<h6 style="margin:5px 0 0 0;">Name:</h6>
 								<input type="text" id="name" value="Trần Minh Sơn" disabled />

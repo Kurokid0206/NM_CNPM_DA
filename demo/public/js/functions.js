@@ -51,16 +51,7 @@ function enable_edit_info(){
     })
 }
 
-function save_info(){
-    document.querySelectorAll("#profile-section input").forEach(element=>{
-        element.disabled=true
-    })
 
-    document.querySelectorAll("#profile-section .btn").forEach(element=>{
-        element.style.display='none'
-    })
-    document.querySelector("#profile-section .btn-edit").style.display='inline-block'
-}
 
 function cancel_edit(){
     document.querySelectorAll("#profile-section input").forEach(element=>{
@@ -71,6 +62,7 @@ function cancel_edit(){
         element.style.display='none'
     })
     document.querySelector("#profile-section .btn-edit").style.display='inline-block'
+    render_profile()
 }
 
 
@@ -193,9 +185,11 @@ function join_course(MaKH){
 
 
 function ThamGia(MaKH,Ngay){
+    
     var xhtml = new XMLHttpRequest();
     xhtml.onload = function() {
         console.log("tham gia rồi nhé")
+        show('registered-courses-section')
     }
     xhtml.open("POST", "join-course-class");
     xhtml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -204,12 +198,12 @@ function ThamGia(MaKH,Ngay){
 
 
 function show_course_schedule(MaKH){
-    
+    show('course-schedule-section')
     var xhtml = new XMLHttpRequest();
     xhtml.onload = function() {
         var data=JSON.parse(this.responseText)
         render_course_detail(data)
-        show('course-schedule-section')
+        
     }
     xhtml.open("POST", "schedule");
     xhtml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -219,7 +213,7 @@ function show_course_schedule(MaKH){
 
 
 function render_course_detail(data){
-    console.log(data)
+
     if(data.length<1){
         return  'No result'
      }
@@ -312,19 +306,48 @@ function show_profile() {
     //document.getElementById("show-profile").style.display="block"
     var xhtml = new XMLHttpRequest();
     xhtml.onload = function() {
-        var data=JSON.parse(this.responseText)
+        glb_data=JSON.parse(this.responseText)[0]
 
-        render_profile(data[0])
+        render_profile()
         
     }
     xhtml.open("GET", "show-profile");
     xhtml.send();
 }
 
-function render_profile(data){
-    //console.log(data)
+function render_profile(){
+    let data=glb_data
     document.querySelectorAll("#profile-section form input")[0].value=data.HoTen
     document.querySelectorAll("#profile-section form input")[1].value=new Date(data.NgaySinh).toISOString().slice(0, 10)
     document.querySelectorAll("#profile-section form input")[2].value=data.Email
     document.querySelectorAll("#profile-section form input")[3].value=data.SDT
+}
+
+function save_info(){
+    let name = document.querySelectorAll("#profile-section form input")[0]
+    let ntns =document.querySelectorAll("#profile-section form input")[1]
+    let email =document.querySelectorAll("#profile-section form input")[2]
+    let sdt =document.querySelectorAll("#profile-section form input")[3]
+
+    var xhtml = new XMLHttpRequest();
+    xhtml.onload = function() {
+        document.querySelectorAll("#profile-section input").forEach(element=>{
+            element.disabled=true
+        })
+    
+        document.querySelectorAll("#profile-section .btn").forEach(element=>{
+            element.style.display='none'
+        })
+        document.querySelector("#profile-section .btn-edit").style.display='inline-block'
+        show_profile()
+    }
+
+    xhtml.open("POST", "change-info");
+    xhtml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhtml.send(
+        'name='+name.value+//
+        '&ntns='+ntns.value+//
+        '&email='+email.value+
+        '&sdt='+sdt.value
+    );
 }

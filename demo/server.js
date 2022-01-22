@@ -147,13 +147,14 @@ app.post("/change-info",function(req,res){
 	Promise.resolve('success').then(
 		async function () {
 			try {
+				
 				let pool = await sql.connect(config);
 				let result = await pool.request()
 					.input('MaTK', sql.VARCHAR(10),req.session.user.MaTK)
 					.input('HoTen', sql.NVarChar(50), `${req.body.name}`)
-					.input('NgaySinh', sql.Date, `${req.body.birth}`)
+					.input('NgaySinh', sql.Date, `${req.body.ntns}`)
 					.input('Email', sql.VARCHAR(50), `${req.body.email}`)
-					.input('SDT', sql.VARCHAR(20), `${req.body.SDT}`)
+					.input('SDT', sql.VARCHAR(20), `${req.body.sdt}`)
 					//.output('output_parameter', sql.VarChar(50))
 					.execute('sp_ND_CapNhatTT')
 				pool.close()
