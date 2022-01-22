@@ -499,15 +499,16 @@ AS
 GO
 
 --drop proc sp_User_XemLH
-create proc sp_User_XemLH @MaTK varchar(10),@MaKH varchar(10)
+create 
+--alter
+proc sp_User_XemLH @MaTK varchar(10), @MaKH varchar(10)
 AS
 BEGIN TRAN
 	BEGIN TRY
 	  select kh.TenKhoaHoc,kh.MaKH,lh.Ngay,lh.ThoiGian 
 	  from ThamGiaKH tg Join KhoaHoc kh on tg.MaKH=kh.MaKH Join LichHoc lh on kh.MaKH=lh.MaKH  
-	  where MaTK = @MaTK and datediff(day,getDate(),lh.Ngay) >= 0
-	  and not exists (select * from ThamGiaBuoiHoc where MaTK = @MaTK)
-	  order by lh.Ngay
+	  where MaTK = @MaTK and lh.MaKH = @MaKH
+	  and not exists (select * from ThamGiaBuoiHoc tgbh where MaTK = @MaTK and lh.MaKH = @MaKH and lh.STT = tgbh.STT)
 	END TRY
 	BEGIN CATCH
 		SELECT
@@ -520,6 +521,8 @@ BEGIN TRAN
 		IF @@TRANCOUNT > 0
 		  ROLLBACK TRANSACTION
 	END CATCH
+	IF @@TRANCOUNT > 0
+		COMMIT TRANSACTION
 GO
 
 create proc sp_GV_XemLH @MaTK varchar(10)
