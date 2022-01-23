@@ -165,9 +165,16 @@ function join_course(MaKH){
     
     var xhtml = new XMLHttpRequest();
     xhtml.onload = function() {
+        
+        
         try{
             data=JSON.parse(this.responseText)
-            if(data){
+            
+            if(data.ErrorMessage){
+                alert("You need to login to use this function")
+                window.location.href = "/login";
+            }
+            else if(data){
                 alert(data[0].ErrorMessage)
                 
             }
@@ -261,7 +268,7 @@ function insert_course(){
         course_class_num.value=0
         course_min_student.value=0
         fee.value=0
-        show('my-course-section')
+        show_my_courses('my-course-section')
     }
 
     xhtml.open("POST", "insert-course");
@@ -277,24 +284,24 @@ function insert_course(){
 
 
 function update_cert(){
-    var cert_name_more=document.getElementById("cert_name");
-    var cert_recv_date_more=document.getElementById("cert_recv_date");
-    var cert_provider_more=document.getElementById("cert_provider");
+    var cert_name=document.getElementById("cert_name");
+    var cert_recv_date=document.getElementById("cert_recv_date");
+    var cert_provider=document.getElementById("cert_provider");
 
     var xhtml = new XMLHttpRequest();
     xhtml.onload = function() {
         // console.log(this.responseText)
-        cert_name_more.value=""
-        cert_recv_date_more.value=0
-        cert_provider_more.value=""
+        cert_name.value=""
+        cert_recv_date.value=0
+        cert_provider.value=""
     }
 
     xhtml.open("POST", "update-cert");
     xhtml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhtml.send(
-        'cert_name_more='+cert_name_more.value+//
-        '&cert_recv_date_more='+cert_recv_date_more.value+//
-        '&cert_provider_more='+cert_provider_more.value
+        'cert_name='+cert_name.value+//
+        '&cert_recv_date='+cert_recv_date.value+//
+        '&cert_provider='+cert_provider.value
     );
 
     return false;

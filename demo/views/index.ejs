@@ -36,24 +36,6 @@
 
 			<div class="top-bar">
 				<div class="container">
-					<!-- <div class="row">
-                        <div class="col-xs-12">
-                            <div class="d-flex justify-end">
-                                <div class="left mr-auto">
-                                    <ul class="clearfix">
-                                        <li>Phone: <a href="tel:+98698547258">+98 698 547 258</a></li>
-                                        <li>Open hours: 9.00 -6.00 SAT-MON</li>
-                                    </ul>
-                                </div>
-                                <div class="right l-height">
-                                    <ul class="clearfix d-inblock">
-                                        <li><a href="login">Login</a></li>
-                                        <li><a href="signup">Signup</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
 					<!-- /.row -->
 				</div>
 				<!-- /.container -->
@@ -78,7 +60,10 @@
 									</div>
 									<div id="navbar" class="navbar-collapse collapse no-padding">
 										<ul class="navbar-nav dropdown">
-											<li><a onclick="show('courses-section')">Home</a></li>
+											<li><a onclick="show('courses-section');find_courses()">Home</a></li>
+											
+											<% if(data){ %>
+												
 											<li>
 												<a href="javascript:viod(0)" class="dropdown-toggle"
 													data-toggle="dropdown" title="Click Here">
@@ -87,9 +72,13 @@
 												<ul class="dropdown-menu">
 													<li><a onclick="show_registered_courses()">Registered Courses</a>
 													</li>
-													<li><a onclick="show_my_courses()">My Courses</a></li>
+													<% if(data.MaGV){ %>
+														<li><a onclick="show_my_courses()">My Courses</a></li>
+													<% } %>
+													
 												</ul>
 											</li>
+											
 
 											<li>
 												<a href="javascript:viod(0)" class="dropdown-toggle"
@@ -116,25 +105,21 @@
 
 													<!-- <li><a href="profile.html">Profile</a></li> -->
 													<li><a onclick="show_profile()">Profile</a></li>
-													<li><a onclick="show('become-teacher-section')">Become Teachers</a>
+													<% if(data.MaGV){ %>
+													<li><a onclick="show('become-teacher-section')">Update Certificate</a>
 													</li>
-													<li><a href="login">Login</a></li>
-													<li><a href="signup">Signup</a></li>
+													<% } else{%>
+														<li><a onclick="show('become-teacher-section')">Become Teachers</a>
+														</li>
+														<% } %>
+													<li><a href="logout">Logout</a></li>
+													
 												</ul>
 											</li>
-											<!-- <li>
-                                                <a href="javascript:viod(0)" class="dropdown-toggle" data-toggle="dropdown" title="Click Here">
-													Blog <i class="zmdi zmdi-chevron-down"></i>
-												</a>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="blog.html">Blog Style 1</a></li>
-                                                    <li><a href="blog-2.html">Blog Style 2</a></li>
-                                                    <li><a href="blog-3.html">Blog Style 3</a></li>
-                                                    <li><a href="blog-4.html">Blog Style 4</a></li>
-                                                    <li><a href="blog-details.html">Blog Details</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="contact-us.html">Contact</a></li> -->
+											<% } else {%>
+												<li><a href="login">Login</a></li>
+													<li><a href="signup">Signup</a></li>
+												<%} %>
 										</ul>
 									</div>
 									<!--/.nav-collapse -->
@@ -171,7 +156,6 @@
 					<br>
 					<div class="col-xs-12 col-sm-8 mobi-mb-50" style="width: 70%;">
 						<div class="row courses">
-
 							<div class="col-xs-12 col-sm-6 mb-30">
 								<div class="blog-post blog-style2">
 									<div class="thumb text-center">
@@ -193,141 +177,6 @@
 											</div>
 											<div class="pull-right">
 												<h5><span>Rating:</span> 5/5</h5>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- /.Post End -->
-							<div class="col-xs-12 col-sm-6 mb-30">
-								<div class="blog-post blog-style2">
-									<div class="thumb text-center">
-										<a href="blog-details.html"><img src="assets/img/blog/7.jpg"
-												alt="Thumbnail Image" /></a>
-									</div>
-									<div class="blog-content">
-										<div class="rt-inner plr-35 pt-30 mb-20">
-
-											<a href="blog-details.html">
-												<h3 class="text-capitalize">Cơ sở dữ liệu nâng cao</h3>
-											</a>
-											<h4 class="mb-5">20 Jun 2017</h4>
-											<p>Mô tả bla bla bla</p>
-										</div>
-										<div class="footer clearfix plr-35">
-											<div class="pull-left">
-												<h5><span>By:</span> Kuro</h5>
-											</div>
-											<div class="pull-right">
-												<h5><span>Rating:</span> 5/5</h5>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- /.Post End -->
-							<div class="col-xs-12 col-sm-6 mb-30">
-								<div class="blog-post blog-style2">
-									<div class="thumb text-center">
-										<a href="blog-details.html"><img src="assets/img/blog/8.jpg"
-												alt="Thumbnail Image" /></a>
-									</div>
-									<div class="blog-content">
-										<div class="rt-inner plr-35 pt-30 mb-20">
-											<h4 class="mb-5">20 Jun 2017</h4>
-											<a href="blog-details.html">
-												<h3 class="text-capitalize">There are many available</h3>
-											</a>
-											<p>There are many variations of ages oIpsum available, but the mrity ave
-												suffered ation in some orm altime to.</p>
-										</div>
-										<div class="footer clearfix plr-35">
-											<div class="pull-left">
-												<h5><span>By:</span> Mark Thomas</h5>
-											</div>
-											<div class="pull-right">
-												<h5><span>Comment:</span> 20</h5>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- /.Post End -->
-							<div class="col-xs-12 col-sm-6 mb-30">
-								<div class="blog-post blog-style2">
-									<div class="thumb text-center">
-										<a href="blog-details.html"><img src="assets/img/blog/9.jpg"
-												alt="Thumbnail Image" /></a>
-									</div>
-									<div class="blog-content">
-										<div class="rt-inner plr-35 pt-30 mb-20">
-											<h4 class="mb-5">20 Jun 2017</h4>
-											<a href="blog-details.html">
-												<h3 class="text-capitalize">The mrity ave oIpsum ation</h3>
-											</a>
-											<p>There are many variations of ages oIpsum available, but the mrity ave
-												suffered ation in some orm altime to.</p>
-										</div>
-										<div class="footer clearfix plr-35">
-											<div class="pull-left">
-												<h5><span>By:</span> Mark Thomas</h5>
-											</div>
-											<div class="pull-right">
-												<h5><span>Comment:</span> 20</h5>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- /.Post End -->
-							<div class="col-xs-12 col-sm-6 mb-30">
-								<div class="blog-post blog-style2">
-									<div class="thumb text-center">
-										<a href="blog-details.html"><img src="assets/img/blog/5.jpg"
-												alt="Thumbnail Image" /></a>
-									</div>
-									<div class="blog-content">
-										<div class="rt-inner plr-35 pt-30 mb-20">
-											<h4 class="mb-5">20 Jun 2017</h4>
-											<a href="blog-details.html">
-												<h3 class="text-capitalize">There are many in some</h3>
-											</a>
-											<p>There are many variations of ages oIpsum available, but the mrity ave
-												suffered ation in some orm altime to.</p>
-										</div>
-										<div class="footer clearfix plr-35">
-											<div class="pull-left">
-												<h5><span>By:</span> Mark Thomas</h5>
-											</div>
-											<div class="pull-right">
-												<h5><span>Comment:</span> 20</h5>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- /.Post End -->
-							<div class="col-xs-12 col-sm-6 mb-30">
-								<div class="blog-post blog-style2">
-									<div class="thumb text-center">
-										<a href="blog-details.html"><img src="assets/img/blog/4.jpg"
-												alt="Thumbnail Image" /></a>
-									</div>
-									<div class="blog-content">
-										<div class="rt-inner plr-35 pt-30 mb-20">
-											<h4 class="mb-5">20 Jun 2017</h4>
-											<a href="blog-details.html">
-												<h3 class="text-capitalize">Many variations of ation</h3>
-											</a>
-											<p>There are many variations of ages oIpsum available, but the mrity ave
-												suffered ation in some orm altime to.</p>
-										</div>
-										<div class="footer clearfix plr-35">
-											<div class="pull-left">
-												<h5><span>By:</span> Mark Thomas</h5>
-											</div>
-											<div class="pull-right">
-												<h5><span>Comment:</span> 20</h5>
 											</div>
 										</div>
 									</div>
@@ -462,141 +311,7 @@
 								</div>
 							</div>
 							<!-- /.Post End -->
-							<div class="col-xs-12 col-sm-6 mb-30">
-								<div class="blog-post blog-style2">
-									<div class="thumb text-center">
-										<a href="blog-details.html"><img src="assets/img/blog/7.jpg"
-												alt="Thumbnail Image" /></a>
-									</div>
-									<div class="blog-content">
-										<div class="rt-inner plr-35 pt-30 mb-20">
 
-											<a href="blog-details.html">
-												<h3 class="text-capitalize">Cơ sở dữ liệu nâng cao</h3>
-											</a>
-											<h4 class="mb-5">20 Jun 2017</h4>
-											<p>Mô tả bla bla bla</p>
-										</div>
-										<div class="footer clearfix plr-35">
-											<div class="pull-left">
-												<h5><span>By:</span> Kuro</h5>
-											</div>
-											<div class="pull-right">
-												<h5><span>Rating:</span> 5/5</h5>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- /.Post End -->
-							<div class="col-xs-12 col-sm-6 mb-30">
-								<div class="blog-post blog-style2">
-									<div class="thumb text-center">
-										<a href="blog-details.html"><img src="assets/img/blog/8.jpg"
-												alt="Thumbnail Image" /></a>
-									</div>
-									<div class="blog-content">
-										<div class="rt-inner plr-35 pt-30 mb-20">
-											<h4 class="mb-5">20 Jun 2017</h4>
-											<a href="blog-details.html">
-												<h3 class="text-capitalize">There are many available</h3>
-											</a>
-											<p>There are many variations of ages oIpsum available, but the mrity ave
-												suffered ation in some orm altime to.</p>
-										</div>
-										<div class="footer clearfix plr-35">
-											<div class="pull-left">
-												<h5><span>By:</span> Mark Thomas</h5>
-											</div>
-											<div class="pull-right">
-												<h5><span>Comment:</span> 20</h5>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- /.Post End -->
-							<div class="col-xs-12 col-sm-6 mb-30">
-								<div class="blog-post blog-style2">
-									<div class="thumb text-center">
-										<a href="blog-details.html"><img src="assets/img/blog/9.jpg"
-												alt="Thumbnail Image" /></a>
-									</div>
-									<div class="blog-content">
-										<div class="rt-inner plr-35 pt-30 mb-20">
-											<h4 class="mb-5">20 Jun 2017</h4>
-											<a href="blog-details.html">
-												<h3 class="text-capitalize">The mrity ave oIpsum ation</h3>
-											</a>
-											<p>There are many variations of ages oIpsum available, but the mrity ave
-												suffered ation in some orm altime to.</p>
-										</div>
-										<div class="footer clearfix plr-35">
-											<div class="pull-left">
-												<h5><span>By:</span> Mark Thomas</h5>
-											</div>
-											<div class="pull-right">
-												<h5><span>Comment:</span> 20</h5>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- /.Post End -->
-							<div class="col-xs-12 col-sm-6 mb-30">
-								<div class="blog-post blog-style2">
-									<div class="thumb text-center">
-										<a href="blog-details.html"><img src="assets/img/blog/5.jpg"
-												alt="Thumbnail Image" /></a>
-									</div>
-									<div class="blog-content">
-										<div class="rt-inner plr-35 pt-30 mb-20">
-											<h4 class="mb-5">20 Jun 2017</h4>
-											<a href="blog-details.html">
-												<h3 class="text-capitalize">There are many in some</h3>
-											</a>
-											<p>There are many variations of ages oIpsum available, but the mrity ave
-												suffered ation in some orm altime to.</p>
-										</div>
-										<div class="footer clearfix plr-35">
-											<div class="pull-left">
-												<h5><span>By:</span> Mark Thomas</h5>
-											</div>
-											<div class="pull-right">
-												<h5><span>Comment:</span> 20</h5>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- /.Post End -->
-							<div class="col-xs-12 col-sm-6 mb-30">
-								<div class="blog-post blog-style2">
-									<div class="thumb text-center">
-										<a href="blog-details.html"><img src="assets/img/blog/4.jpg"
-												alt="Thumbnail Image" /></a>
-									</div>
-									<div class="blog-content">
-										<div class="rt-inner plr-35 pt-30 mb-20">
-											<h4 class="mb-5">20 Jun 2017</h4>
-											<a href="blog-details.html">
-												<h3 class="text-capitalize">Many variations of ation</h3>
-											</a>
-											<p>There are many variations of ages oIpsum available, but the mrity ave
-												suffered ation in some orm altime to.</p>
-										</div>
-										<div class="footer clearfix plr-35">
-											<div class="pull-left">
-												<h5><span>By:</span> Mark Thomas</h5>
-											</div>
-											<div class="pull-right">
-												<h5><span>Comment:</span> 20</h5>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- /.Post End -->
 						</div>
 						<!-- /.row -->
 						<div class="row">

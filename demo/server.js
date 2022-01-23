@@ -38,14 +38,7 @@ app.use((req, res, next) => {
 })
 // get home page
 app.get("/", (req, res) => {
-	// if(!res.locals.user){
-	// 	res.redirect("/login")
-	// }
-	// else{
-    // res.render("index", {
-    //     user: res.locals.user
-    // })}
-	res.render("index")
+	res.render("index",{data: res.locals.user})
 })
 app.post("/find-courses", (req, res) => {
 	(async()=> {
@@ -81,8 +74,10 @@ app.post("/login", (req, res) => {
                     .input("mk", sql.VarChar(50), req.body.password)
                     .output("MaTK", sql.VarChar(10))
                     .execute("sp_signIn")
+					//console.log(result)
 				if(result.output.MaTK!=null){
-					req.session.user = result.output
+					
+					req.session.user = result.recordset[0]
 					res.redirect("/")
 					//console.log(req.session.user)
 					//console.log(req.session.user.MaTK)
@@ -102,7 +97,7 @@ app.post("/login", (req, res) => {
         }
     )
 })
-app.get("/log-out",function(req,res){
+app.get("/logout",function(req,res){
 	req.session.destroy();
 	res.redirect("/")
 })
@@ -199,11 +194,11 @@ app.post("/update-cert",function(req,res){
 				let pool = await sql.connect(config);
 				let result = await pool.request()
 					.input('MaTK', sql.VARCHAR(10),req.session.user.MaTK)
-					.input('TenBang', sql.NVarChar(50), `${req.body.cert_name_more}`)
-					.input('NgayCapBang', sql.Date, `${req.body.cert_recv_date_more}`)
-					.input('NoiCapBang', sql.NVARCHAR(50), `${req.body.cert_provider_more}`)
+					.input('TenBang', sql.NVarChar(50), `${req.body.cert_name}`)
+					.input('NgayCapBang', sql.Date, `${req.body.cert_recv_date}`)
+					.input('NoiCapBang', sql.NVARCHAR(50), `${req.body.cert_provider}`)
 					//.output('MaGV',sql.VARCHAR(10))
-					.execute('sp_GV_CapNhatBC')
+					.execute('sp_TK_CapNhatBC')
 				pool.close()
 				res.send(result.recordset)
 				//console.log(result)
@@ -222,7 +217,7 @@ app.post("/insert-course",function(req,res){
 			try {
 				let pool = await sql.connect(config);
 				let result = await pool.request()
-					.input('MaTK', sql.VARCHAR(10),'TK00000020')//req.session.user.MaTK)
+					.input('MaTK', sql.VARCHAR(10),req.session.user.MaTK)
 					.input('TenKH', sql.NVarChar(50), `${req.body.course_name}`)
 					.input('Lop', sql.Int, `${req.body.course_grade}`)
 					.input('SoBuoi', sql.Int, `${req.body.course_class_num}`)
@@ -247,7 +242,7 @@ app.get("/my-courses",function(req,res){
 			try {
 				let pool = await sql.connect(config);
 				let result = await pool.request()
-					.input('MaTK', sql.VARCHAR(10),'TK00000020')// req.session.user.MaTK)
+					.input('MaTK', sql.VARCHAR(10), req.session.user.MaTK)
 					//.output('output_parameter', sql.VarChar(50))
 					.execute('sp_GV_XemKH')
 				pool.close()
@@ -268,7 +263,7 @@ app.get("/registered-courses",function(req,res){
 			try {
 				let pool = await sql.connect(config);
 				let result = await pool.request()
-					.input('MaTK', sql.VARCHAR(10),'TK00000020')// req.session.user.MaTK)
+					.input('MaTK', sql.VARCHAR(10), req.session.user.MaTK)
 					//.output('output_parameter', sql.VarChar(50))
 					.execute('sp_User_XemKH')
 				pool.close()
@@ -324,7 +319,7 @@ app.post("/schedule",function(req,res){
 			try {
 				let pool = await sql.connect(config);
 				let result = await pool.request()
-					.input('MaTK', sql.VARCHAR(10), 'TK00000020')//req.session.user.MaTK)
+					.input('MaTK', sql.VARCHAR(10), req.session.user.MaTK)
 					.input('MaKH', sql.VARCHAR(10), req.body.MaKH)
 					//.output('output_parameter', sql.VarChar(50))
 					.execute('sp_User_XemLH')
@@ -373,23 +368,33 @@ app.get("/show-profile", (req,res) => {
 		})
 })
 app.post("/join-course",function(req,res){
-	Promise.resolve('success').then(
-		async function () {
-			try {
-				let pool = await sql.connect(config);
-				let result = await pool.request()
-					.input('MaTK', sql.VARCHAR(10), 'TK00000020')//req.session.user.MaTK)
-					.input('MaKH', sql.VarChar(10), `${req.body.MaKH}`)
-					.execute('sp_TK_ThamGiaKH')
-				pool.close()
-				res.send(result.recordset)
-				console.log(result)
-				return
-			} catch (error) {
-				console.log(error.message);
-				return error.message
-			}
-		})
+	console.log(req.session.user)
+
+	// if(req.session.user){
+	// 	res.send('ErrorMessage: "login required"')
+	// 	return
+	// 	}
+	Promise.resolve('success')
+	.then(async function () {
+		try {
+			
+			let pool = await sql.connect(config);
+			let result = await pool.request()
+				.input('MaTK', sql.VARCHAR(10), req.session.user.MaTK)
+				.input('MaKH', sql.VarChar(10), `${req.body.MaKH}`)
+				.execute('sp_TK_ThamGiaKH')
+			pool.close()
+			res.send(result.recordset)
+			console.log(result)
+			return
+		} catch (error) {
+			res.send({ErrorMessage: "login required"})
+			console.log(error.message);
+			return error.message
+		}
+	})
+	
+	
 })
 
 app.post("/join-course-class",function(req,res){
