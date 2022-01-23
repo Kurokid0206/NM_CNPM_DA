@@ -215,11 +215,11 @@ GO
 --Đăng nhập
 CREATE 
 --ALTER
-PROC sp_signIn @tendn VARCHAR(50), @mk VARCHAR(50)
+PROC sp_signIn @tendn VARCHAR(50), @mk VARCHAR(50), @matk VARCHAR(10) OUTPUT
 AS
 BEGIN TRAN
 	BEGIN TRY
-		DECLARE @matk AS VARCHAR(10) = (SELECT MaTK
+		SELECT @matk = (SELECT MaTK
 			FROM nguoidung
 			WHERE tendn = @tendn
 			AND matkhaudn = @mk)
@@ -241,7 +241,6 @@ BEGIN TRAN
   IF @@TRANCOUNT > 0
     COMMIT TRANSACTION;
 GO
-
 
 --Lên lịch học
 CREATE 
