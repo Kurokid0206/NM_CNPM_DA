@@ -137,8 +137,8 @@ IF @@TRANCOUNT > 0
 
 GO
 
-CREATE
---ALTER
+CREATE 
+--alter
 PROC sp_GV_HuyKH
 	@MaGV varchar(10),
 	@MaKH varchar(10)
@@ -154,8 +154,9 @@ BEGIN TRAN
 		end
 		else
 		begin	
-			delete from KhoaHoc where MaKH = @MaKH
+			delete from ThamGiaBuoiHoc where MaKH = @MaKH
 			delete from ThamGiaKH where MaKH = @MaKH
+			delete from KhoaHoc where MaKH = @MaKH
 		end
 	END TRY
 	BEGIN CATCH
