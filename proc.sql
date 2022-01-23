@@ -82,9 +82,9 @@ BEGIN TRAN
 	BEGIN TRY
 		IF @TinhTrang = 1
 			UPDATE ThamGiaKH
-			SET TinhTrangThanhToan = N'Đã Thanh Toán'	
+			SET TinhTrangThanhToan = N'Đã Thanh Toán' where MaKH = @MaKH and MaTK = @MaTK
 		ELSE UPDATE ThamGiaKH
-			SET TinhTrangThanhToan = N'Chưa Thanh Toán'	
+			SET TinhTrangThanhToan = N'Chưa Thanh Toán'	 where MaKH = @MaKH and MaTK = @MaTK
 	END TRY
 	BEGIN CATCH
 		SELECT  ERROR_NUMBER() AS ErrorNumber,
